@@ -1,7 +1,12 @@
 public class Miles implements IUnite {
     @Override
+    public String toString() {
+        return "Miles";
+    }
+
+    @Override
     public float convertToIS(float distance) {
-        return (distance*1.609f)*1000;
+        return (distance*1.60934f)*1000;
     }
 
     @Override

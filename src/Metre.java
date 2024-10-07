@@ -1,6 +1,11 @@
 public class Metre implements IUnite {
 
     @Override
+    public String toString() {
+        return "Metres";
+    }
+
+    @Override
     public float convertToIS(float distance) {
         return distance;
     }
