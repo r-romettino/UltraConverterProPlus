@@ -18,6 +18,9 @@ public class Main {
         String entree = sc.nextLine();
 
         String[] tabDistance = {"Metre", "Miles"};
+        int tailleTabDistance = 2;
+        String[] choix;
+        int idxChoix=0;
 
         /*try
         {
@@ -31,9 +34,11 @@ public class Main {
         else if(Objects.equals(entree, "1"))
         {
             System.out.println("Selectionnez l'unité d'origine : \n" +
-                    "\t0. Quitter\n"+
-                    "\t1. Metres\n" +
-                    "\t2. ClassesUnites.Miles\n");
+                    "\t0. Quitter");
+            for(int i = 0; i<tailleTabDistance; i++)
+            {
+                System.out.println("\t"+(i+1)+". "+tabDistance[i]);
+            }
             entree = sc.nextLine();
 
             if(Objects.equals(entree, "0"))//On quitte
@@ -46,13 +51,13 @@ public class Main {
             IUnite u2=null;
             if (Objects.equals(entree, "1"))//Metres vers ClassesUnites.Miles
             {
-                u1 = Factory.transformStringToClass("ClassesUnites.Metre");
-                u2 = Factory.transformStringToClass("ClassesUnites.Miles");
+                u1 = Factory.transformStringToClass("Metre");
+                u2 = Factory.transformStringToClass("Miles");
             }
             else if (Objects.equals(entree, "2"))//ClassesUnites.Miles vers Metres
             {
-                u1 = Factory.transformStringToClass("ClassesUnites.Miles");
-                u2 = Factory.transformStringToClass("ClassesUnites.Metre");
+                u1 = Factory.transformStringToClass("Miles");
+                u2 = Factory.transformStringToClass("Metre");
 
             }
             else
