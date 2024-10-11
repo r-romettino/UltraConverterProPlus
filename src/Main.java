@@ -1,23 +1,29 @@
 import java.sql.Array;
 import java.sql.SQLOutput;
 import java.util.*;
-
 import static java.lang.System.exit;
 
-public class Main {
-    public static <Unite> void main(String[] args) {
+public class Main
+{
+    /**
+     * Entry point of our CLI program, asks the user for the unit type, and the original and output unit, then the value of the original unit
+     * Print the result of the conversion
+     * @param args
+     */
+    public static void main(String[] args)
+    {
         float res = -1;
 
-        String[] types = {"Distances"};
+        String[] types = {"Distances"};//To fill with all the unit types
 
-        String[] uniteDistances = {"Miles", "Metre"};
+        String[] uniteDistances = {"Miles", "Metre"};//To fill with all the different distance units
 
         System.out.println("Selectionnez un des choix suivants : \n");
         AffichageMenu.afficher(types);
 
         System.out.println("\n Votre choix : ");
 
-        Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);//initialize the scanner to get the user's choices
         String entree = sc.nextLine();
 
         if(Objects.equals(entree, "0"))
@@ -30,7 +36,7 @@ public class Main {
             AffichageMenu.afficher(uniteDistances);
             entree = sc.nextLine();
 
-            if(Objects.equals(entree, "0"))//On quitte
+            if(Objects.equals(entree, "0"))//On quitte si 0
                 exit(0);
 
             IUnite u1=null;
