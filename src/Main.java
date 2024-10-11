@@ -62,7 +62,7 @@ public class Main
             else
                 res = Convertisseur.convert(u1,u2, distance);
             Formatter format = new Formatter();
-            format.format("Résultat de la conversion de %s %s vers %s = %s", distance, u1, u2, res);
+            format.format("Résultat de la conversion : %s %s = %s %s", distance, u1, res, u2);
             System.out.println(format);
         }
         else if(Objects.equals(entree, "2"))//Temps
