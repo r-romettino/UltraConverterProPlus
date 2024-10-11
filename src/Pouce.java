@@ -1,16 +1,17 @@
-public class Miles implements IUnite {
+public class Pouce implements IUnite{
+
     @Override
     public String toString() {
-        return "Miles";
+        return "Pouces";
     }
 
     @Override
     public float convertToIS(float distance) {
-        return distance*1609.344f;
+        return distance*0.0254f;
     }
 
     @Override
     public float convertFromIS(float distance) {
-        return distance*0.000621371f;
+        return distance*0.3937f;
     }
 }
