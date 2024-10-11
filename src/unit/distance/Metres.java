@@ -1,8 +1,11 @@
-public class Metre implements IUnite {
+package unit.distance;
 
+import unit.IUnite;
+
+public class Metres implements IUnite {
     @Override
-    public String toString() {
-        return "Metres";
+    public String getFullName() {
+        return "mètres";
     }
 
     @Override

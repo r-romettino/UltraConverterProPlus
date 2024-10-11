@@ -1,6 +1,11 @@
+import unit.IUnite;
+
 import java.lang.reflect.InvocationTargetException;
 
 public class Factory {
+    private final String[] types = {"Distances"};
+
+    private final String[] uniteDistances = {"Miles", "Metres"};
     static public IUnite transformStringToClass(String u1)
     {
         IUnite unite = null;
@@ -8,7 +13,6 @@ public class Factory {
         {
             Class<?> classeDistance = Class.forName(u1);
             unite = (IUnite) classeDistance.getDeclaredConstructor().newInstance();
-
         } catch (ClassNotFoundException | NoClassDefFoundError  e) {
             System.out.println("Cette classe n'existe pas");
         } catch (ClassCastException  e) {

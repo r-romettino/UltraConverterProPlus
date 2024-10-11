@@ -1,7 +1,10 @@
+package unit.distance;
+
+import unit.IUnite;
+
 public class Miles implements IUnite {
-    @Override
-    public String toString() {
-        return "Miles";
+    public String getFullName() {
+        return "miles";
     }
 
     @Override

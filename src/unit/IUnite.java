@@ -1,6 +1,7 @@
-public interface IUnite {
+package unit;
 
-    String toString();
+public interface IUnite {
+    String getFullName();
     float convertToIS(float distance);
 
     float convertFromIS(float distance);
