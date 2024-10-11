@@ -14,9 +14,11 @@ public class Main
     {
         float res = -1;
 
-        String[] types = {"Distances"};//To fill with all the unit types
+        String[] types = {"Distances", "Temps"};;//To fill with all the unit types
 
+        // TODO: Make this a hashmap
         String[] uniteDistances = {"Miles", "Metre"};//To fill with all the different distance units
+        String[] uniteTemps = {"Seconds", "Minutes", "Hours"};
 
         System.out.println("Selectionnez un des choix suivants : \n");
         AffichageMenu.afficher(types);
@@ -26,6 +28,7 @@ public class Main
         Scanner sc = new Scanner(System.in);//initialize the scanner to get the user's choices
         String entree = sc.nextLine();
 
+        // TODO: refactor to get rid of the else if
         if(Objects.equals(entree, "0"))
         {
             exit(0);
@@ -49,6 +52,34 @@ public class Main
             entree = sc.nextLine();
 
             u2 = Factory.transformStringToClass(uniteDistances[Integer.parseInt(entree)-1]);
+
+            System.out.println("Qu'elle distance voulez vous convertir?");
+            float distance = Float.parseFloat(sc.nextLine());
+
+            res = Convertisseur.convert(u1,u2, distance);
+            Formatter format = new Formatter();
+            format.format("Résultat de la conversion de %.2f %s vers %s = %.2f", distance, u1, u2, res);
+            System.out.println(format);
+        }
+        else if(Objects.equals(entree, "2"))//Distances
+        {
+            System.out.println("Selectionnez l'unité d'origine : \n");
+            AffichageMenu.afficher(uniteTemps);
+            entree = sc.nextLine();
+
+            if(Objects.equals(entree, "0"))//On quitte
+                exit(0);
+
+            IUnite u1=null;
+            IUnite u2=null;
+
+            u1 = Factory.transformStringToClass(uniteTemps[Integer.parseInt(entree)-1]);
+
+            System.out.println("Vers quelle unité?\n");
+            AffichageMenu.afficher(uniteTemps);
+            entree = sc.nextLine();
+
+            u2 = Factory.transformStringToClass(uniteTemps[Integer.parseInt(entree)-1]);
 
             System.out.println("Qu'elle distance voulez vous convertir?");
             float distance = Float.parseFloat(sc.nextLine());
