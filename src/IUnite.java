@@ -1,7 +1,8 @@
 public interface IUnite {
 
+    @Override
     String toString();
-    float convertToIS(float distance);
+    float convertToIS(float valeur);
 
-    float convertFromIS(float distance);
+    float convertFromIS(float valeur);
 }

@@ -17,8 +17,8 @@ public class Main
         String[] types = {"Distances", "Temps"};;//To fill with all the unit types
 
         // TODO: Make this a hashmap
-        String[] uniteDistances = {"Miles", "Metre"};//To fill with all the different distance units
         String[] uniteTemps = {"Secondes", "Minutes", "Heures", "Jours", "Semaines"};
+        String[] uniteDistances = {"Miles", "Metre", "Pouce", "MileNautique", "Yard", "Kilometre", "Centimetre", "Millimetre", "Micrometre", "Nanometre", "Pied"};//To fill with all the different distance units
 
         System.out.println("Selectionnez un des choix suivants : \n");
         AffichageMenu.afficher(types);
@@ -56,9 +56,13 @@ public class Main
             System.out.println("Qu'elle distance voulez vous convertir?");
             float distance = Float.parseFloat(sc.nextLine());
 
-            res = Convertisseur.convert(u1,u2, distance);
+            //Avoid to convert if miles to miles or meters to meters etc...
+            if(u1.getClass()==u2.getClass())
+                res = distance;
+            else
+                res = Convertisseur.convert(u1,u2, distance);
             Formatter format = new Formatter();
-            format.format("Résultat de la conversion de %.2f %s vers %s = %.2f", distance, u1, u2, res);
+            format.format("Résultat de la conversion de %s %s vers %s = %s", distance, u1, u2, res);
             System.out.println(format);
         }
         else if(Objects.equals(entree, "2"))//Temps

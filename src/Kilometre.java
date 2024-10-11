@@ -1,16 +1,17 @@
-public class Miles implements IUnite {
+public class Kilometre implements IUnite{
     @Override
     public String toString() {
-        return "Miles";
+        return "Kilometres";
     }
 
     @Override
     public float convertToIS(float distance) {
-        return distance*1609.344f;
+        return distance*1000;
     }
 
     @Override
     public float convertFromIS(float distance) {
-        return distance*0.000621371f;
+        return distance/1000;
     }
+
 }
