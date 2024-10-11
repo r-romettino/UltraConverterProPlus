@@ -1,4 +1,4 @@
-public class Seconds implements IUnite {
+public class Secondes implements IUnite {
     @Override
     public String toString() {
         return "secondes";

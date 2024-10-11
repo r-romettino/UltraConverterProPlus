@@ -18,7 +18,7 @@ public class Main
 
         // TODO: Make this a hashmap
         String[] uniteDistances = {"Miles", "Metre"};//To fill with all the different distance units
-        String[] uniteTemps = {"Seconds", "Minutes", "Hours"};
+        String[] uniteTemps = {"Secondes", "Minutes", "Heures", "Jours"};
 
         System.out.println("Selectionnez un des choix suivants : \n");
         AffichageMenu.afficher(types);
