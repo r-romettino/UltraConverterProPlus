@@ -61,7 +61,7 @@ public class Main
             format.format("Résultat de la conversion de %.2f %s vers %s = %.2f", distance, u1, u2, res);
             System.out.println(format);
         }
-        else if(Objects.equals(entree, "2"))//Distances
+        else if(Objects.equals(entree, "2"))//Temps
         {
             System.out.println("Selectionnez l'unité d'origine : \n");
             AffichageMenu.afficher(uniteTemps);
