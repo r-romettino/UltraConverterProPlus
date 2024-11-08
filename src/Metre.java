@@ -1,3 +1,7 @@
+/**
+ * Classe gérant les mètres
+ * Système internationnal des Distances
+ */
 public class Metre implements IUnite {
 
     @Override

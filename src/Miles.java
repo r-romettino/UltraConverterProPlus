@@ -1,3 +1,6 @@
+/**
+ * Classe gérant les miles
+ */
 public class Miles implements IUnite {
     @Override
     public String toString() {

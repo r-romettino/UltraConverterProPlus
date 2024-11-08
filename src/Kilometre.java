@@ -1,3 +1,6 @@
+/**
+ * Classe gérant les kilomètres
+ */
 public class Kilometre implements IUnite{
     @Override
     public String toString() {

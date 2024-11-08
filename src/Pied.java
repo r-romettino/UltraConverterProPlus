@@ -1,3 +1,6 @@
+/**
+ * Classe gérant les pieds
+ */
 public class Pied implements IUnite{
 
     @Override

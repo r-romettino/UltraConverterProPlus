@@ -1,3 +1,6 @@
+/**
+ * Classe gérant les yard
+ */
 public class Yard implements IUnite{
     @Override
     public String toString() {
