@@ -1,8 +1,16 @@
-public class Celsius implements IUnite{
+package distances;
+
+import outils.IUnite;
+
+/**
+ * Classe gérant les mètres
+ * Système internationnal des Distances
+ */
+public class Metre implements IUnite {
 
     @Override
     public String toString() {
-        return "Celsius";
+        return "Metres";
     }
 
     @Override

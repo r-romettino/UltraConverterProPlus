@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+package outils;
 
 public class AffichageMenu {
     public static void afficher(String[] a)
@@ -7,7 +7,8 @@ public class AffichageMenu {
         int idx = 1;
         for(String e : a)
         {
-            System.out.println("\t" + idx + ". "+e);
+            String[] e_u = e.split("\\.");
+            System.out.println("\t" + idx + ". "+e_u[1]);
             idx++;
         }
     }

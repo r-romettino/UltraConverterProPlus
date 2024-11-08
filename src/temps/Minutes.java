@@ -1,3 +1,7 @@
+package temps;
+
+import outils.IUnite;
+
 public class Minutes implements IUnite {
     @Override
     public String toString() {

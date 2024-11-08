@@ -1,7 +1,11 @@
+package distances;
+
+import outils.IUnite;
+
 /**
  * Classe gérant les mile nautique
  */
-public class MileNautique implements IUnite{
+public class MileNautique implements IUnite {
     @Override
     public String toString() {
         return "Miles Nautique";

@@ -1,3 +1,5 @@
+package outils;
+
 /**
  * Interface commune a toutes nos unités qu'elles soient distances ou temps ou autre
  */

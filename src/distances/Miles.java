@@ -1,3 +1,7 @@
+package distances;
+
+import outils.IUnite;
+
 /**
  * Classe gérant les miles
  */
