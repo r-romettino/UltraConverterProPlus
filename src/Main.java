@@ -13,7 +13,7 @@ public class Main
      * Print the result of the conversion
      * @param args
      */
-    /*public static void main(String[] args)
+    public static void main(String[] args)
     {
         float res = -1;
 
@@ -57,11 +57,5 @@ public class Main
 	            System.out.println("Erreur! \n Votre choix est impossible ("+entree+")");
 	        }
 
-    }*/
-	public static void main(String[] args)
-	{
-		String CSVContent = "Miles,1,Metre;Pied,2,Pouce";
-		String NewCSVContent = ConvertisseurCSV.convertirCSV(CSVContent);
-		System.out.println(NewCSVContent);
-	}
+    }
 }
