@@ -14,10 +14,11 @@ public class Main
     {
         float res = -1;
 
-        String[] types = {"Distances", "Temps"};;//To fill with all the unit types
+        String[] types = {"Distances", "Temps", "Températures"};;//To fill with all the unit types
 
         // TODO: Make this a hashmap
         String[] uniteTemps = {"Secondes", "Minutes", "Heures", "Jours", "Semaines"};
+        String[] uniteTemperatures = {"Celsius", "Delisle", "Fahrenheit", "Kelvin", "Newton", "Rankine", "Reaumur"};
         String[] uniteDistances = {"Miles", "Metre", "Pouce", "MileNautique", "Yard", "Kilometre", "Centimetre", "Millimetre", "Micrometre", "Nanometre", "Pied"};//To fill with all the different distance units
 
         System.out.println("Selectionnez un des choix suivants : \n");
@@ -91,6 +92,34 @@ public class Main
             res = Convertisseur.convert(u1,u2, distance);
             Formatter format = new Formatter();
             format.format("Résultat de la conversion de %.2f %s vers %s = %.2f", distance, u1, u2, res);
+            System.out.println(format);
+        }
+        else if(Objects.equals(entree, "3"))//Températures
+        {
+            System.out.println("Selectionnez l'unité d'origine : \n");
+            AffichageMenu.afficher(uniteTemperatures);
+            entree = sc.nextLine();
+
+            if(Objects.equals(entree, "0"))//On quitte
+                exit(0);
+
+            IUnite u1=null;
+            IUnite u2=null;
+
+            u1 = Factory.transformStringToClass(uniteTemperatures[Integer.parseInt(entree)-1]);
+
+            System.out.println("Vers quelle unité?\n");
+            AffichageMenu.afficher(uniteTemperatures);
+            entree = sc.nextLine();
+
+            u2 = Factory.transformStringToClass(uniteTemperatures[Integer.parseInt(entree)-1]);
+
+            System.out.println("Qu'elle distance voulez vous convertir?");
+            float temperature = Float.parseFloat(sc.nextLine());
+
+            res = Convertisseur.convert(u1,u2, temperature);
+            Formatter format = new Formatter();
+            format.format("Résultat de la conversion de %.2f %s vers %s = %.2f", temperature, u1, u2, res);
             System.out.println(format);
         }
         else
