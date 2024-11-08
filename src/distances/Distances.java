@@ -1,3 +1,5 @@
+package distances;
+
 import java.util.*;
 import static java.lang.System.exit;
 import outils.*;

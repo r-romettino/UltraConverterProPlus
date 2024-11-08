@@ -1,6 +1,9 @@
 import outils.AffichageMenu;
 import java.util.*;
 import static java.lang.System.exit;
+import distances.*;
+import temperatures.*;
+import temps.*;
 
 public class Main
 {
@@ -35,7 +38,7 @@ public class Main
 	        }
 	        else if(Objects.equals(entree, "1"))//Distances
 	        {
-	        	Distances D = new Distances(uniteDistances);
+	        	distances.Distances D = new Distances(uniteDistances);
 	        	D.convertor(res, entree, sc);
 	        }
 	        else if(Objects.equals(entree, "2"))//Temps
