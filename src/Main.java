@@ -1,6 +1,4 @@
-import outils.AffichageMenu;
-import outils.Convertisseur;
-import outils.IUnite;
+import outils.*;
 
 import java.util.*;
 import static java.lang.System.exit;
