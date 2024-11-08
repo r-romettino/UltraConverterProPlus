@@ -1,7 +1,11 @@
+package distances;
+
+import outils.IUnite;
+
 /**
  * Classe gérant les pouces
  */
-public class Pouce implements IUnite{
+public class Pouce implements IUnite {
 
     @Override
     public String toString() {

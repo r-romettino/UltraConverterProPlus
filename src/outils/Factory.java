@@ -1,4 +1,4 @@
-import outils.IUnite;
+package outils;
 
 import java.lang.reflect.InvocationTargetException;
 

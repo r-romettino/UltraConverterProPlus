@@ -1,4 +1,8 @@
-public class Newton implements IUnite{
+package temperatures;
+
+import outils.IUnite;
+
+public class Newton implements IUnite {
     @Override
     public String toString() {
         return "Newton";

@@ -1,4 +1,8 @@
-public class Fahrenheit implements IUnite{
+package temperatures;
+
+import outils.IUnite;
+
+public class Fahrenheit implements IUnite {
     @Override
     public String toString() {
         return "Fahrenheit";

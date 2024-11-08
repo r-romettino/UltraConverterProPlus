@@ -1,7 +1,11 @@
+package distances;
+
+import outils.IUnite;
+
 /**
  * Classe gérant les millimètres
  */
-public class Millimetre implements IUnite{
+public class Millimetre implements IUnite {
     @Override
     public String toString() {
         return "Millimètres";
