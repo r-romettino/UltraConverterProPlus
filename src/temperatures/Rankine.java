@@ -1,4 +1,8 @@
-public class Rankine implements IUnite{
+package temperatures;
+
+import outils.IUnite;
+
+public class Rankine implements IUnite {
     @Override
     public String toString() {
         return "Rankine";

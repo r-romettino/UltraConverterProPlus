@@ -1,5 +1,4 @@
-import java.sql.Array;
-import java.sql.SQLOutput;
+import outils.AffichageMenu;
 import java.util.*;
 import static java.lang.System.exit;
 
@@ -14,13 +13,13 @@ public class Main
     {
         float res = -1;
 
-        String[] types = {"Distances", "Temps", "Températures"};;//To fill with all the unit types
+        String[] types = {"u.Distances", "u.Temps", "u.Températures"};;//To fill with all the unit types
 
         // TODO: Make this a hashmap
-        String[] uniteTemps = {"Secondes", "Minutes", "Heures", "Jours", "Semaines"};
-        String[] uniteTemperatures = {"Celsius", "Delisle", "Fahrenheit", "Kelvin", "Newton", "Rankine", "Reaumur"};
-        String[] uniteDistances = {"Miles", "Metre", "Pouce", "MileNautique", "Yard", "Kilometre", "Centimetre", "Millimetre", "Micrometre", "Nanometre", "Pied"};//To fill with all the different distance units
-        //while (1) {
+        String[] uniteTemps = {"temps.Secondes", "temps.Minutes", "temps.Heures", "temps.Jours", "temps.Semaines"};
+        String[] uniteTemperatures = {"temperatures.Celsius", "temperatures.Delisle", "temperatures.Fahrenheit", "temperatures.Kelvin", "temperatures.Newton", "temperatures.Rankine", "temperatures.Reaumur"};
+        String[] uniteDistances = {"distances.Miles", "distances.Metre", "distances.Pouce", "distances.MileNautique", "distances.Yard", "distances.Kilometre", "distances.Centimetre", "distances.Millimetre", "distances.Micrometre", "distances.Nanometre", "distances.Pied"};//To fill with all the different distance units
+        
 	        System.out.println("Selectionnez un des choix suivants : \n");
 	        AffichageMenu.afficher(types);
 	
@@ -53,7 +52,6 @@ public class Main
 	        {
 	            System.out.println("Erreur! \n Votre choix est impossible ("+entree+")");
 	        }
-        //}
 
     }
 }

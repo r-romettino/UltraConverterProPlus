@@ -1,7 +1,11 @@
+package distances;
+
+import outils.IUnite;
+
 /**
  * Classe gérant les micromètres
  */
-public class Micrometre implements IUnite{
+public class Micrometre implements IUnite {
     @Override
     public String toString() {
         return "Micrometres";

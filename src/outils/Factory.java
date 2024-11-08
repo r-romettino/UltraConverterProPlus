@@ -1,3 +1,5 @@
+package outils;
+
 import java.lang.reflect.InvocationTargetException;
 
 public class Factory {
