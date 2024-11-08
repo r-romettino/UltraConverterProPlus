@@ -1,3 +1,6 @@
+/**
+ * Classe gérant les centimètres
+ */
 public class Centimetre implements IUnite{
     @Override
     public String toString() {

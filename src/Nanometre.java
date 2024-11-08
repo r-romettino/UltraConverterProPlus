@@ -1,3 +1,6 @@
+/**
+ * Classe gérant les nanomètre
+ */
 public class Nanometre implements IUnite {
     @Override
     public String toString() {

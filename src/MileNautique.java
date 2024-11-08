@@ -1,3 +1,6 @@
+/**
+ * Classe gérant les mile nautique
+ */
 public class MileNautique implements IUnite{
     @Override
     public String toString() {

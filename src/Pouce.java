@@ -1,3 +1,6 @@
+/**
+ * Classe gérant les pouces
+ */
 public class Pouce implements IUnite{
 
     @Override

@@ -1,3 +1,6 @@
+/**
+ * Classe gérant les millimètres
+ */
 public class Millimetre implements IUnite{
     @Override
     public String toString() {
