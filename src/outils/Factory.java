@@ -1,4 +1,7 @@
 package outils;
+import distances.*;
+import temps.*;
+import temperatures.*;
 
 import java.lang.reflect.InvocationTargetException;
 
