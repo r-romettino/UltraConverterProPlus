@@ -1,9 +1,17 @@
 import outils.AffichageMenu;
+<<<<<<< HEAD
 import outils.Convertisseur;
 import outils.Factory;
 import outils.IUnite;
 
+=======
+import java.util.*;
+>>>>>>> b41c67513cc8e70bd7969ebbb800c9895806d30d
 import static java.lang.System.exit;
+import distances.*;
+import outils.ConvertisseurCSV;
+import temperatures.*;
+import temps.*;
 
 import java.util.*;
 
@@ -55,6 +63,7 @@ public class Main
         }
         
         sc.close(); // Fermer le scanner à la fin
+
     }
 	
 	public static void convertor(float res, String entree, Scanner sc, String[]listeUnite) {
