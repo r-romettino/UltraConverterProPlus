@@ -2,6 +2,7 @@ import outils.AffichageMenu;
 import java.util.*;
 import static java.lang.System.exit;
 import distances.*;
+import outils.ConvertisseurCSV;
 import temperatures.*;
 import temps.*;
 
@@ -22,15 +23,15 @@ public class Main
         String[] uniteTemps = {"temps.Secondes", "temps.Minutes", "temps.Heures", "temps.Jours", "temps.Semaines"};
         String[] uniteTemperatures = {"temperatures.Celsius", "temperatures.Delisle", "temperatures.Fahrenheit", "temperatures.Kelvin", "temperatures.Newton", "temperatures.Rankine", "temperatures.Reaumur"};
         String[] uniteDistances = {"distances.Miles", "distances.Metre", "distances.Pouce", "distances.MileNautique", "distances.Yard", "distances.Kilometre", "distances.Centimetre", "distances.Millimetre", "distances.Micrometre", "distances.Nanometre", "distances.Pied"};//To fill with all the different distance units
-        
+
 	        System.out.println("Selectionnez un des choix suivants : \n");
 	        AffichageMenu.afficher(types);
-	
+
 	        System.out.println("\n Votre choix : ");
-	
+
 	        Scanner sc = new Scanner(System.in);//initialize the scanner to get the user's choices
 	        String entree = sc.nextLine();
-	
+
 	        // TODO: refactor to get rid of the else if
 	        if(Objects.equals(entree, "0"))
 	        {
