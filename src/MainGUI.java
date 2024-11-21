@@ -1,77 +1,121 @@
 import javax.swing.*;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import outils.Convertisseur;
-
+import outils.convertHistory;
 import java.awt.*;
-import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class MainGUI {
 
-    // Déclarations des éléments graphiques
+    private static JFrame frame;
+    private static JPanel mainPanel;
+    private static JPanel initialPanel;
+    private static JPanel conversionPanel;
+    private static CardLayout cardLayout;
+
+    // DÃ©clarations des Ã©lÃ©ments graphiques pour l'interface de conversion
     private static JComboBox<String> typeComboBox;
     private static JComboBox<String> fromUnitComboBox;
     private static JComboBox<String> toUnitComboBox;
     private static JTextField valueTextField;
     private static JButton convertButton;
+    private static JScrollPane scrollPane = new JScrollPane();
+    private static DefaultListModel<String> listModel = new DefaultListModel<>();
+    private static JList<String> list;
 
-    // Unités pour chaque type
+    // UnitÃ©s pour chaque type
     private static String[] uniteTemps = {"Secondes", "Minutes", "Heures", "Jours", "Semaines"};
     private static String[] uniteTemperatures = {"Celsius", "Delisle", "Fahrenheit", "Kelvin", "Newton", "Rankine", "Reaumur"};
     private static String[] uniteDistances = {"Miles", "Metre", "Pouce", "Mile Nautique", "Yard", "Kilometre", "Centimetre", "Millimetre", "Micrometre", "Nanometre", "Pied"};
     private static String[] listeUnite;
-    
+    private static convertHistory lastConvert;
+    private static List<convertHistory> history = new ArrayList<>();
+
     public static void main(String[] args) {
-        JFrame frame = new JFrame("Conversion d'Unités");
-        frame.setSize(400, 300);
+        frame = new JFrame("Ultra Converter Pro Plus");
+        frame.setSize(400, 350);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new FlowLayout());
 
-        // Liste déroulante pour choisir le type d'unité (distance, temps, température)
-        String[] types = {"distances", "temps", "temperatures"};
-        typeComboBox = new JComboBox<>(types);
-        typeComboBox.setSelectedIndex(0); // Valeur par défaut
-        frame.add(typeComboBox);
+        cardLayout = new CardLayout();
+        mainPanel = new JPanel(cardLayout);
 
-        // Liste déroulante pour l'unité de départ
-        fromUnitComboBox = new JComboBox<>();
-        frame.add(fromUnitComboBox);
+        // Panneau initial avec deux boutons
+        initialPanel = new JPanel();
+        initialPanel.setLayout(new GridBagLayout());
+        JButton button1 = new JButton("Conversion simple");
+        JButton button2 = new JButton("Bouton 2");
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        buttonPanel.add(button1);
+        buttonPanel.add(button2);
+        initialPanel.add(buttonPanel);
 
-        // Liste déroulante pour l'unité d'arrivée
-        toUnitComboBox = new JComboBox<>();
-        frame.add(toUnitComboBox);
+        // Panneau de conversion (sera affichÃ© aprÃ¨s clic sur le bouton 1)
+        conversionPanel = new JPanel();
+        conversionPanel.setLayout(new FlowLayout());
+        setupConversionPanel();
 
-        // Champ de texte pour la valeur à convertir
-        valueTextField = new JTextField(10);
-        frame.add(valueTextField);
+        // Ajouter les panneaux au CardLayout
+        mainPanel.add(initialPanel, "initial");
+        mainPanel.add(conversionPanel, "conversion");
+        frame.add(mainPanel);
 
-        // Bouton de conversion
-        convertButton = new JButton("Convertir");
-        frame.add(convertButton);
+        // Action pour le bouton 1
+        button1.addActionListener(e -> cardLayout.show(mainPanel, "conversion"));
 
-        // Action quand on change le type d'unité
-        typeComboBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                updateUnitCombos();
-            }
-        });
-
-        // Initialisation des unités
-        updateUnitCombos();
-        
-        // Action quand on clique sur le bouton de conversion
-        convertButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                convert();
-            }
-        });
-
-        // Afficher la fenêtre
+        // Afficher la fenÃªtre
         frame.setVisible(true);
     }
 
-    // Met à jour les listes déroulantes des unités selon le type choisi
+    private static void setupConversionPanel() {
+        conversionPanel.setLayout(new BorderLayout()); // Changer le layout pour BorderLayout
+
+        // Barre supÃ©rieure avec le bouton Retour
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // Barre supÃ©rieure
+        JButton backButton = new JButton("â†");
+        topPanel.add(backButton);
+        conversionPanel.add(topPanel, BorderLayout.NORTH); // Ajouter en haut du panneau
+
+        // Action du bouton Retour
+        backButton.addActionListener(e -> cardLayout.show(mainPanel, "initial"));
+
+        // Le reste du panneau (contenu principal de la conversion)
+        JPanel contentPanel = new JPanel(new FlowLayout());
+        conversionPanel.add(contentPanel, BorderLayout.CENTER);
+
+        String[] types = {"distances", "temps", "temperatures"};
+        typeComboBox = new JComboBox<>(types);
+        fromUnitComboBox = new JComboBox<>();
+        toUnitComboBox = new JComboBox<>();
+        valueTextField = new JTextField(10);
+        convertButton = new JButton("Convertir");
+
+        contentPanel.add(typeComboBox);
+        contentPanel.add(fromUnitComboBox);
+        contentPanel.add(toUnitComboBox);
+        contentPanel.add(valueTextField);
+        contentPanel.add(convertButton);
+
+        // Historique
+        scrollPane = new JScrollPane();
+        list = new JList<>(listModel);
+        scrollPane.setViewportView(list);
+        contentPanel.add(scrollPane);
+
+        updateUnitCombos();
+        typeComboBox.addActionListener(e -> updateUnitCombos());
+
+        loadFromJson();
+
+        convertButton.addActionListener(e -> {
+            convert();
+            saveHistoryToJson(history);
+        });
+    }
+
     private static void updateUnitCombos() {
         String selectedType = (String) typeComboBox.getSelectedItem();
         fromUnitComboBox.removeAllItems();
@@ -98,49 +142,77 @@ public class MainGUI {
         }
     }
 
-    // Affiche une nouvelle fenêtre avec le résultat de la conversion
+    private static void convert() {
+        String fromUnit = (String) fromUnitComboBox.getSelectedItem();
+        String toUnit = (String) toUnitComboBox.getSelectedItem();
+        String valueText = valueTextField.getText();
+        String selectedType = (String) typeComboBox.getSelectedItem();
+
+        if (!isValidNumber(valueText)) {
+            JOptionPane.showMessageDialog(null, "Veuillez entrer une valeur numÃ©rique valide.");
+        } else {
+            float value = Float.parseFloat(valueText);
+            float result = fromUnit.equals(toUnit) ? value : Convertisseur.convertString(
+                    selectedType + "." + fromUnit,
+                    selectedType + "." + toUnit,
+                    value,
+                    listeUnite);
+
+            showResult(result, fromUnit, toUnit, value);
+            addHistory(result, fromUnit, toUnit, value, selectedType);
+        }
+    }
+
+    private static boolean isValidNumber(String value) {
+        return value.matches("[-+]?\\d*\\.?\\d+");
+    }
+
     private static void showResult(float result, String fromUnit, String toUnit, float value) {
-        JFrame resultFrame = new JFrame("Résultat de la Conversion");
+        JFrame resultFrame = new JFrame("RÃ©sultat de la Conversion");
         resultFrame.setSize(300, 150);
         resultFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        String resultText = String.format("Résultat : %.2f %s = %.2f %s", value, fromUnit, result, toUnit);
+        String resultText = String.format("RÃ©sultat : %.2f %s = %.2f %s", value, fromUnit, result, toUnit);
         JLabel resultLabel = new JLabel(resultText, SwingConstants.CENTER);
         resultFrame.add(resultLabel);
 
         resultFrame.setVisible(true);
     }
-    
-    // Effectue la conversion en fonction des unités choisies
-    private static void convert() {
-    	String fromUnit = (String) fromUnitComboBox.getSelectedItem();
-        String toUnit = (String) toUnitComboBox.getSelectedItem();
-        String valueText = valueTextField.getText();
-        String selectedType = (String) typeComboBox.getSelectedItem();
-        
-        // Vérifie si la valeur saisie est un float valide
-        if (!isValidNumber(valueText)) {
-            JOptionPane.showMessageDialog(null, "Veuillez entrer une valeur numérique valide.");
-        } else {
-        	// Convertit en float maintenant que c'est validé
-            float value = Float.parseFloat(valueText);
-            float result;
-            
-            if (fromUnit.equals(toUnit)) {
-            	result = value;
-            } else {
-            	result = Convertisseur.convertString(selectedType + "." + fromUnit, selectedType + "." + toUnit, value, listeUnite);
-            }
 
-            showResult(result, fromUnit, toUnit, value);
+    private static void addHistory(float result, String fromUnit, String toUnit, float value, String selectedType) {
+        lastConvert = new convertHistory(result, fromUnit, toUnit, value, selectedType);
+        history.add(lastConvert);
+        listModel.add(0, lastConvert.toString());
+    }
+
+    private static void loadFromJson() {
+        loadHistoryFromJson();
+        for (int i = history.size() - 1; i >= 0; i--) {
+            listModel.addElement(history.get(i).toString());
         }
-
-    }
-    
-    private static boolean isValidNumber(String value) {
-        return value.matches("[-+]?\\d*\\.?\\d+");
     }
 
+    public static void loadHistoryFromJson() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        File file = new File("history.json");
 
+        try {
+            if (file.exists() && !file.isDirectory()) {
+                List<convertHistory> loadedHistory = Arrays.asList(objectMapper.readValue(file, convertHistory[].class));
+                history.addAll(loadedHistory);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public static void saveHistoryToJson(List<convertHistory> history) {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            objectMapper.writeValue(new File("history.json"), history);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
