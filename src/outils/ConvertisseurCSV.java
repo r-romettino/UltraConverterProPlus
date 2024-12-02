@@ -1,9 +1,5 @@
 package outils;
 
-import distances.*;
-import temperatures.*;
-import temps.*;
-
 /**
  * Take CSV content and convert each lines
  */
@@ -16,8 +12,8 @@ public class ConvertisseurCSV {
     static public String convertir(String ligne)
     {
         String[] donneesEntrees = ligne.split(",");
-        IUnite u1=null;
-        IUnite u2=null;
+        IUnite u1;
+        IUnite u2;
         u1 = Factory.transformStringToClass("temps."+donneesEntrees[0], false);
         if(u1==null)
         {
@@ -39,7 +35,7 @@ public class ConvertisseurCSV {
         }
         float valueUnit1 = Float.parseFloat(donneesEntrees[1]);
         float valueUnit2 = Convertisseur.convert(u1, u2, valueUnit1);
-        return u1.toString()+","+valueUnit1+","+u2.toString()+","+valueUnit2;
+        return u1+","+valueUnit1+","+u2+","+valueUnit2;
     }
 
     /**
