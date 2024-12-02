@@ -74,20 +74,22 @@ public class CsvFileHelper {
         return true;
     }
 
-    public static void IOCSV(String pathIn, String pathOut)
+    public static boolean IOCSV(String pathIn, String pathOut)
     {
         setFileName(pathIn);
         setFILE_Conversion(pathOut);
-        final File file = new File(pathIn);
-        //CsvFileHelper.getResource(FILE_NAME);
+        //final File file = CsvFileHelper.getResource(FILE_NAME);
+        File file = new File(pathIn);
         try
         {
             String result = readFile(file);
             writeFile(convertirCSV(result));
+            return true;
         }
         catch (IOException e)
         {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            return false;
         }
 
     }
