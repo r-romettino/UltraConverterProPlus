@@ -5,6 +5,8 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
+import static outils.ConvertisseurCSV.convertirCSV;
+
 public class CsvFileHelper {
 
     private final static String FILE_NAME = "ressources/test.csv";
@@ -45,10 +47,11 @@ public class CsvFileHelper {
         try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filePath), StandardCharsets.ISO_8859_1))) {
 
             for (String row : rows) {
-                String[] cols = row.split(",");
+                /*String[] cols = row.split(",");
                 for (String col : cols) {
                     writer.write(col +";");
-                }
+                }*/
+                writer.write(row);
                 writer.newLine();
             }
         } catch (IOException e) {
@@ -64,10 +67,13 @@ public class CsvFileHelper {
 
         final File file = CsvFileHelper.getResource(FILE_NAME);
 
-        try {
+        try
+        {
             String result = readFile(file);
-            writeFile(result);
-        } catch (IOException e) {
+            writeFile(convertirCSV(result));
+        }
+        catch (IOException e)
+        {
             throw new RuntimeException(e);
         }
 

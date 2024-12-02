@@ -54,7 +54,7 @@ public class ConvertisseurCSV {
         String CSVToReturn = "";
         for(String ligne : lignes)
         {
-            CSVToReturn += convertir(ligne)+";";
+            CSVToReturn += convertir(ligne)+"\n";
         }
         return CSVToReturn;
     }
