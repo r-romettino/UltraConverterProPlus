@@ -3,7 +3,6 @@ package outils;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
 
 import static outils.ConvertisseurCSV.convertirCSV;
 
@@ -40,11 +39,9 @@ public class CsvFileHelper {
 
     public static boolean writeFile(String conversion) throws IOException {
 
-        String filePath = FILE_Conversion;
-
         String[] rows = conversion.split(";");
 
-        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filePath), StandardCharsets.ISO_8859_1))) {
+        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(FILE_Conversion), StandardCharsets.ISO_8859_1))) {
 
             for (String row : rows) {
                 /*String[] cols = row.split(",");
