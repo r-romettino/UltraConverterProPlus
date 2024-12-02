@@ -74,8 +74,10 @@ public class CsvFileHelper {
         return true;
     }
 
-    public static void IOCSV()
+    public static void IOCSV(String pathIn, String pathOut)
     {
+        setFileName(pathIn);
+        setFILE_Conversion(pathOut);
         final File file = CsvFileHelper.getResource(FILE_NAME);
         try {
             String result = readFile(file);
