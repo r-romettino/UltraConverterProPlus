@@ -1,5 +1,6 @@
 package outils;
 
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -8,6 +9,7 @@ public class CsvFileHelper {
 
     private final static String FILE_NAME = "ressources/test.csv";
     private final static String FILE_Conversion = "ressources/Conversion.csv";
+
 
     public static String getResourcePath(String fileName) {
         final File f = new File("");
@@ -20,7 +22,8 @@ public class CsvFileHelper {
     }
 
     public static String readFile(File file) throws IOException {
-        StringBuilder result = new StringBuilder();
+
+      StringBuilder result = new StringBuilder();
 
         try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.ISO_8859_1))) {
             String line;
@@ -75,5 +78,6 @@ public class CsvFileHelper {
         } catch (IOException e) {
             System.err.println("Erreur lors de l'appel de writeFile : " + e.getMessage());
         }*/
+
     }
 }
