@@ -30,7 +30,7 @@ public class CsvFileHelper {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.ISO_8859_1))) {
             String line;
             while ((line = br.readLine()) != null) {
-                System.out.println(line);
+                //System.out.println(line);
                 result.append(line.replace(";", ",")).append(";");
             }
         }
