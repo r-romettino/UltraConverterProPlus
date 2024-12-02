@@ -74,7 +74,7 @@ public class CsvFileHelper {
         return true;
     }
 
-    public static void IOCSV(String pathIn, String pathOut)
+    public static boolean IOCSV(String pathIn, String pathOut)
     {
         setFileName(pathIn);
         setFILE_Conversion(pathOut);
@@ -84,10 +84,12 @@ public class CsvFileHelper {
         {
             String result = readFile(file);
             writeFile(convertirCSV(result));
+            return true;
         }
         catch (IOException e)
         {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            return false;
         }
 
     }
