@@ -8,9 +8,24 @@ import static outils.ConvertisseurCSV.convertirCSV;
 
 public class CsvFileHelper {
 
-    private final static String FILE_NAME = "ressources/test.csv";
-    private final static String FILE_Conversion = "ressources/Conversion.csv";
+    private static String FILE_NAME = "ressources/test.csv";
+    private static String FILE_Conversion = "ressources/Conversion.csv";
 
+    public static String getFILE_Conversion() {
+        return FILE_Conversion;
+    }
+
+    public static String getFileName() {
+        return FILE_NAME;
+    }
+
+    public static void setFILE_Conversion(String FILE_Conversion) {
+        CsvFileHelper.FILE_Conversion = FILE_Conversion;
+    }
+
+    public static void setFileName(String fileName) {
+        FILE_NAME = fileName;
+    }
 
     public static String getResourcePath(String fileName) {
         final File f = new File("");
@@ -59,11 +74,11 @@ public class CsvFileHelper {
         return true;
     }
 
-    public static void main(String[] args)
+    public static void IOCSV(String pathIn, String pathOut)
     {
-
+        setFileName(pathIn);
+        setFILE_Conversion(pathOut);
         final File file = CsvFileHelper.getResource(FILE_NAME);
-
         try
         {
             String result = readFile(file);
@@ -73,14 +88,6 @@ public class CsvFileHelper {
         {
             throw new RuntimeException(e);
         }
-
-       /* String conversion = "Unité de base,Valeur,Unité de conversion;metre,2,miles;";
-        try {
-            boolean result = writeFile(conversion);
-            System.out.println("Fichier écrit avec succès : " + result);
-        } catch (IOException e) {
-            System.err.println("Erreur lors de l'appel de writeFile : " + e.getMessage());
-        }*/
 
     }
 }
