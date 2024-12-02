@@ -10,20 +10,34 @@ public class CsvFileHelper {
     private final static String FILE_NAME = "ressources/test.csv";
     private final static String FILE_Conversion = "ressources/Conversion.csv";
 
-
+    /**
+     * Retourne le chemin absolu d'un fichier dans resource
+     * @param fileName Nom du fichier
+     * @return Le chemin absolu du fichier
+     */
     public static String getResourcePath(String fileName) {
         final File f = new File("");
         return f.getAbsolutePath() + File.separator + fileName;
     }
 
+    /**
+     * Récupère un fichier à partir de resource
+     * @param fileName Nom du fichier
+     * @return Le fichier recherché
+     */
     public static File getResource(String fileName) {
         final String completeFileName = getResourcePath(fileName);
         return new File(completeFileName);
     }
 
+    /**
+     * Lit un fichier CSV
+     * @param file Nom du fichier
+     * @return Le CSV dans une String
+     * @throws IOException Le fichier n'a pas pû etre ouvert
+     */
     public static String readFile(File file) throws IOException {
-
-      StringBuilder result = new StringBuilder();
+        StringBuilder result = new StringBuilder();
 
         try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.ISO_8859_1))) {
             String line;
@@ -36,6 +50,12 @@ public class CsvFileHelper {
         return result.toString();
     }
 
+    /**
+     * Écrit un fichier CSV converti
+     * @param conversion CSV dans une String
+     * @return Le fichier a été écrit avec succès ou non
+     * @throws IOException Une erreur est survenue lors de l'écriture
+     */
     public static boolean writeFile(String conversion) throws IOException {
 
         String filePath = FILE_Conversion;

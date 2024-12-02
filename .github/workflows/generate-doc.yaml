@@ -1,0 +1,21 @@
+name: Generate JavaDoc
+on: push
+jobs:
+  generate-doc:
+    name: Generate JavaDoc
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Java
+        uses: "actions/setup-java@v4"
+        with:
+          distribution: 'corretto'
+          java-version: '21'
+      - name: Maven generate javadoc
+        run: "mvn -B javadoc::javadoc"
+      - name: Deploy GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./target/reports/apidocs/

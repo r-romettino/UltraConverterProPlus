@@ -1,5 +1,8 @@
 package outils;
 
+/**
+ * Classe représentant une entrée dans l'historique
+ */
 public class convertHistory {
 	
 	private float result;
@@ -8,10 +11,18 @@ public class convertHistory {
 	private float value;
 	private String Type;
 	
-	// Constructeur par d�faut requis pour Jackson
+	// Constructeur par d�faut requis pour Jackson
 	public convertHistory() {
 	}
-	
+
+	/**
+	 * Une entrée d'historique
+	 * @param result Résultat
+	 * @param fromUnit Unité de départ
+	 * @param toUnit Unité d'arrivée
+	 * @param value Valeur de départ
+	 * @param selectedType Type d'unité (distance, temps...)
+	 */
 	public convertHistory (float result, String fromUnit, String toUnit, float value, String selectedType) {
 		this.setResult(result);
 		this.setFromUnit(fromUnit);

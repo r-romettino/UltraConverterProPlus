@@ -35,6 +35,10 @@ public class MainGUI {
     private static convertHistory lastConvert;
     private static List<convertHistory> history = new ArrayList<>();
 
+    /**
+     * Entrypoint
+     * @param args args
+     */
     public static void main(String[] args) {
         frame = new JFrame("Ultra Converter Pro Plus");
         frame.setSize(400, 350);
@@ -70,6 +74,9 @@ public class MainGUI {
         frame.setVisible(true);
     }
 
+    /**
+     * Créé la fenêtre principale
+     */
     private static void setupConversionPanel() {
         conversionPanel.setLayout(new BorderLayout()); // Changer le layout pour BorderLayout
 
@@ -116,6 +123,9 @@ public class MainGUI {
         });
     }
 
+    /**
+     * Rafraichit les dropdown d'unités lors du changement de type d'unitée (temps, distance...)
+     */
     private static void updateUnitCombos() {
         String selectedType = (String) typeComboBox.getSelectedItem();
         fromUnitComboBox.removeAllItems();
@@ -142,6 +152,9 @@ public class MainGUI {
         }
     }
 
+    /**
+     * Convertit et affiche le résultat
+     */
     private static void convert() {
         String fromUnit = (String) fromUnitComboBox.getSelectedItem();
         String toUnit = (String) toUnitComboBox.getSelectedItem();
@@ -163,10 +176,22 @@ public class MainGUI {
         }
     }
 
+    /**
+     * Valide si le nombre entré est valide
+     * @param value Valeur à vérifier
+     * @return True si la valeur est numérique
+     */
     private static boolean isValidNumber(String value) {
         return value.matches("[-+]?\\d*\\.?\\d+");
     }
 
+    /**
+     * Affiche la fenêtre de résultat de conversion
+     * @param result Résultat de la conversion
+     * @param fromUnit Unité de départ
+     * @param toUnit Unité de fin
+     * @param value Valeur de départ
+     */
     private static void showResult(float result, String fromUnit, String toUnit, float value) {
         JFrame resultFrame = new JFrame("Résultat de la Conversion");
         resultFrame.setSize(300, 150);
@@ -179,12 +204,23 @@ public class MainGUI {
         resultFrame.setVisible(true);
     }
 
+    /**
+     * Ajoute un résultat à l'historique
+     * @param result Résultat de la conversions
+     * @param fromUnit Unité de départ
+     * @param toUnit Unité de fin
+     * @param value Valeur de départ
+     * @param selectedType Type d'unité (distance, temps...)
+     */
     private static void addHistory(float result, String fromUnit, String toUnit, float value, String selectedType) {
         lastConvert = new convertHistory(result, fromUnit, toUnit, value, selectedType);
         history.add(lastConvert);
         listModel.add(0, lastConvert.toString());
     }
 
+    /**
+     * Charge l'historique à partir du JSON
+     */
     private static void loadFromJson() {
         loadHistoryFromJson();
         for (int i = history.size() - 1; i >= 0; i--) {
@@ -192,6 +228,9 @@ public class MainGUI {
         }
     }
 
+    /**
+     * Charge l'historique à partir du JSON
+     */
     public static void loadHistoryFromJson() {
         ObjectMapper objectMapper = new ObjectMapper();
         File file = new File("history.json");
@@ -206,6 +245,10 @@ public class MainGUI {
         }
     }
 
+    /**
+     * Enregistre l'historique dans un JSON
+     * @param history
+     */
     public static void saveHistoryToJson(List<convertHistory> history) {
         ObjectMapper objectMapper = new ObjectMapper();
 
