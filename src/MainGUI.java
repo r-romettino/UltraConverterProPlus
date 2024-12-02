@@ -17,7 +17,7 @@ public class MainGUI {
     private static JPanel conversionPanel;
     private static CardLayout cardLayout;
 
-    // Déclarations des éléments graphiques pour l'interface de conversion
+    // DÃ©clarations des Ã©lÃ©ments graphiques pour l'interface de conversion
     private static JComboBox<String> typeComboBox;
     private static JComboBox<String> fromUnitComboBox;
     private static JComboBox<String> toUnitComboBox;
@@ -27,7 +27,7 @@ public class MainGUI {
     private static DefaultListModel<String> listModel = new DefaultListModel<>();
     private static JList<String> list;
 
-    // Unités pour chaque type
+    // UnitÃ©s pour chaque type
     private static String[] uniteTemps = {"Secondes", "Minutes", "Heures", "Jours", "Semaines"};
     private static String[] uniteTemperatures = {"Celsius", "Delisle", "Fahrenheit", "Kelvin", "Newton", "Rankine", "Reaumur"};
     private static String[] uniteDistances = {"Miles", "Metre", "Pouce", "Mile Nautique", "Yard", "Kilometre", "Centimetre", "Millimetre", "Micrometre", "Nanometre", "Pied"};
@@ -53,7 +53,7 @@ public class MainGUI {
         buttonPanel.add(button2);
         initialPanel.add(buttonPanel);
 
-        // Panneau de conversion (sera affiché après clic sur le bouton 1)
+        // Panneau de conversion (sera affichÃ© aprÃ¨s clic sur le bouton 1)
         conversionPanel = new JPanel();
         conversionPanel.setLayout(new FlowLayout());
         setupConversionPanel();
@@ -66,15 +66,15 @@ public class MainGUI {
         // Action pour le bouton 1
         button1.addActionListener(e -> cardLayout.show(mainPanel, "conversion"));
 
-        // Afficher la fenêtre
+        // Afficher la fenÃªtre
         frame.setVisible(true);
     }
 
     private static void setupConversionPanel() {
         conversionPanel.setLayout(new BorderLayout()); // Changer le layout pour BorderLayout
 
-        // Barre supérieure avec le bouton Retour
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // Barre supérieure
+        // Barre supÃ©rieure avec le bouton Retour
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // Barre supÃ©rieure
         JButton backButton = new JButton("←");
         topPanel.add(backButton);
         conversionPanel.add(topPanel, BorderLayout.NORTH); // Ajouter en haut du panneau

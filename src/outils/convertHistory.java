@@ -62,7 +62,7 @@ public class convertHistory {
 	
     @Override
     public String toString() {
-    	String resultText = String.format("%s : %.2f %s = %.2f %s", Type, value, toUnit, result, fromUnit);
+    	String resultText = String.format("%s : %.2f %s = %.2f %s", Type, value, fromUnit, result, toUnit);
     	return resultText;
     }
 	
