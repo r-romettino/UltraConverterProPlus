@@ -202,7 +202,7 @@ public class MainGUI {
         
         // Action sur bouton conversion
         convertButton.addActionListener(e -> {
-        	CsvFileHelper.IOCSV(filePath, folderPath + "\\new_fichier.csv");
+        	CsvFileHelper.IOCSV(filePath, folderPath + "/new_fichier.csv");
         });
     }
 
