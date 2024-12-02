@@ -78,7 +78,8 @@ public class CsvFileHelper {
     {
         setFileName(pathIn);
         setFILE_Conversion(pathOut);
-        final File file = CsvFileHelper.getResource(FILE_NAME);
+        final File file = new File(pathIn);
+        //CsvFileHelper.getResource(FILE_NAME);
         try
         {
             String result = readFile(file);
