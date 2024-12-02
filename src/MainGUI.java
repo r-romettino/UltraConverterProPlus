@@ -50,16 +50,41 @@ public class MainGUI {
 
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
-
-        // Panneau initial avec deux boutons
+        
+        // paneau initial 
         initialPanel = new JPanel();
         initialPanel.setLayout(new GridBagLayout());
+        
+        // Créer le titre
+        JLabel TitleLabel = new JLabel("ULTRA CONVERTOR PRO PLUS");
+        TitleLabel.setFont(new Font("Arial", Font.BOLD, 24)); // Optionnel: Changer la police pour la rendre plus grande
+        JPanel TitlePanel = new JPanel(new FlowLayout());
+        TitlePanel.add(TitleLabel);
+        
+        // Définir les contraintes pour le TitlePanel (centré en haut)
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0; // Colonne 0
+        gbc.gridy = 0; // Ligne 0
+        gbc.gridwidth = 1; // S'occuper d'une seule colonne
+        gbc.anchor = GridBagConstraints.CENTER; // Centrer le titre
+        gbc.insets = new Insets(20, 10, 10, 10); // Ajouter un peu d'espace autour du titre
+        initialPanel.add(TitlePanel, gbc);
+
+        // Créer deux boutons
         JButton button1 = new JButton("Conversion simple");
-        JButton button2 = new JButton("importer un fichier");
-        JPanel buttonPanel = new JPanel(new FlowLayout());
+        JButton button2 = new JButton("Importer un fichier");
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); // Centrer les boutons
+
         buttonPanel.add(button1);
         buttonPanel.add(button2);
-        initialPanel.add(buttonPanel);
+
+        // Définir les contraintes pour le buttonPanel (centré au milieu de la page)
+        gbc.gridx = 0; // Colonne 0
+        gbc.gridy = 1; // Ligne 1, juste sous le titre
+        gbc.gridwidth = 1; // Une seule colonne pour le panneau des boutons
+        gbc.anchor = GridBagConstraints.CENTER; // Centrer les boutons
+        gbc.insets = new Insets(20, 10, 10, 10); // Ajouter de l'espace autour des boutons
+        initialPanel.add(buttonPanel, gbc);
 
         // Panneau de conversion (sera affichÃ© aprÃ¨s clic sur le bouton 1)
         conversionPanel = new JPanel();
@@ -202,8 +227,28 @@ public class MainGUI {
         
         // Action sur bouton conversion
         convertButton.addActionListener(e -> {
-        	CsvFileHelper.IOCSV(filePath, folderPath + "/new_fichier.csv");
+            // Appel à la méthode IOCSV pour effectuer la conversion
+            boolean success = CsvFileHelper.IOCSV(filePathField.getText(), folderPathField.getText() + "/new_fichier.csv");
+            
+            if (success) {
+                // Afficher un panneau avec un message de succès
+                JPanel successPanel = new JPanel();
+                JLabel successLabel = new JLabel("Fichier converti et téléchargé à l'adresse suivante : " + folderPath + "/new_fichier.csv");
+                successPanel.add(successLabel);
+                
+                // Ajouter successPanel à l'importPanel, ou à un autre endroit de ton interface
+                JOptionPane.showMessageDialog(importPanel, successLabel, "Succès", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                // Afficher un panneau avec un message d'erreur
+                JPanel errorPanel = new JPanel();
+                JLabel errorLabel = new JLabel("Erreur lors de la conversion.");
+                errorPanel.add(errorLabel);
+
+                // Ajouter errorPanel à l'importPanel, ou à un autre endroit de ton interface
+                JOptionPane.showMessageDialog(importPanel, errorLabel, "Erreur", JOptionPane.ERROR_MESSAGE);
+            }
         });
+
     }
 
 
