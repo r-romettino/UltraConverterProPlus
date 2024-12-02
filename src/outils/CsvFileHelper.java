@@ -3,7 +3,8 @@ package outils;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+
+import static outils.ConvertisseurCSV.convertirCSV;
 
 public class CsvFileHelper {
 
@@ -28,7 +29,7 @@ public class CsvFileHelper {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.ISO_8859_1))) {
             String line;
             while ((line = br.readLine()) != null) {
-                System.out.println(line);
+                //System.out.println(line);
                 result.append(line.replace(";", ",")).append(";");
             }
         }
@@ -38,17 +39,16 @@ public class CsvFileHelper {
 
     public static boolean writeFile(String conversion) throws IOException {
 
-        String filePath = FILE_Conversion;
-
         String[] rows = conversion.split(";");
 
-        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filePath), StandardCharsets.ISO_8859_1))) {
+        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(FILE_Conversion), StandardCharsets.ISO_8859_1))) {
 
             for (String row : rows) {
-                String[] cols = row.split(",");
+                /*String[] cols = row.split(",");
                 for (String col : cols) {
                     writer.write(col +";");
-                }
+                }*/
+                writer.write(row);
                 writer.newLine();
             }
         } catch (IOException e) {
@@ -64,10 +64,13 @@ public class CsvFileHelper {
 
         final File file = CsvFileHelper.getResource(FILE_NAME);
 
-        try {
+        try
+        {
             String result = readFile(file);
-            writeFile(result);
-        } catch (IOException e) {
+            writeFile(convertirCSV(result));
+        }
+        catch (IOException e)
+        {
             throw new RuntimeException(e);
         }
 

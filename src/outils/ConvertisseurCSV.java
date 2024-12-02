@@ -1,9 +1,5 @@
 package outils;
 
-import distances.*;
-import temperatures.*;
-import temps.*;
-
 /**
  * Take CSV content and convert each lines
  */
@@ -16,31 +12,30 @@ public class ConvertisseurCSV {
     static public String convertir(String ligne)
     {
         String[] donneesEntrees = ligne.split(",");
-        IUnite u1=null;
-        IUnite u2=null;
-        u1 = Factory.transformStringToClass("temps."+donneesEntrees[0]);
+        IUnite u1;
+        IUnite u2;
+        u1 = Factory.transformStringToClass("temps."+donneesEntrees[0], false);
         if(u1==null)
         {
-            u1 = Factory.transformStringToClass("temperatures."+donneesEntrees[0]);
+            u1 = Factory.transformStringToClass("temperatures."+donneesEntrees[0], false);
         }
         if(u1==null)
         {
-            u1 = Factory.transformStringToClass("distances."+donneesEntrees[0]);
+            u1 = Factory.transformStringToClass("distances."+donneesEntrees[0], false);
         }
 
-        u2 = Factory.transformStringToClass("temps."+donneesEntrees[2]);
+        u2 = Factory.transformStringToClass("temps."+donneesEntrees[2], false);
         if(u2==null)
         {
-            u2 = Factory.transformStringToClass("temperatures."+donneesEntrees[2]);
+            u2 = Factory.transformStringToClass("temperatures."+donneesEntrees[2], false);
         }
         if(u2==null)
         {
-            u2 = Factory.transformStringToClass("distances."+donneesEntrees[2]);
+            u2 = Factory.transformStringToClass("distances."+donneesEntrees[2], false);
         }
         float valueUnit1 = Float.parseFloat(donneesEntrees[1]);
         float valueUnit2 = Convertisseur.convert(u1, u2, valueUnit1);
-        String newLine = u1.toString()+","+valueUnit1+","+u2.toString()+","+valueUnit2;
-        return newLine;
+        return u1+","+valueUnit1+","+u2+","+valueUnit2;
     }
 
     /**
@@ -54,7 +49,7 @@ public class ConvertisseurCSV {
         String CSVToReturn = "";
         for(String ligne : lignes)
         {
-            CSVToReturn += convertir(ligne)+";";
+            CSVToReturn += convertir(ligne)+"\n";
         }
         return CSVToReturn;
     }
