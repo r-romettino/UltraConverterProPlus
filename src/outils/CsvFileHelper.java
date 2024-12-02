@@ -74,25 +74,15 @@ public class CsvFileHelper {
         return true;
     }
 
-    public static void main(String[] args)
+    public static void IOCSV()
     {
-
         final File file = CsvFileHelper.getResource(FILE_NAME);
-
         try {
             String result = readFile(file);
             writeFile(result);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-       /* String conversion = "Unité de base,Valeur,Unité de conversion;metre,2,miles;";
-        try {
-            boolean result = writeFile(conversion);
-            System.out.println("Fichier écrit avec succès : " + result);
-        } catch (IOException e) {
-            System.err.println("Erreur lors de l'appel de writeFile : " + e.getMessage());
-        }*/
 
     }
 }
