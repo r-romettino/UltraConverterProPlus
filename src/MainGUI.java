@@ -1,6 +1,9 @@
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import outils.Convertisseur;
+import outils.CsvFileHelper;
 import outils.convertHistory;
 import java.awt.*;
 import java.io.File;
@@ -15,6 +18,7 @@ public class MainGUI {
     private static JPanel mainPanel;
     private static JPanel initialPanel;
     private static JPanel conversionPanel;
+    private static JPanel importPanel;
     private static CardLayout cardLayout;
 
     // DÃ©clarations des Ã©lÃ©ments graphiques pour l'interface de conversion
@@ -34,6 +38,10 @@ public class MainGUI {
     private static String[] listeUnite;
     private static convertHistory lastConvert;
     private static List<convertHistory> history = new ArrayList<>();
+    
+    // Déclarations des path
+    private static String filePath = "";
+    private static String folderPath = "";
 
     public static void main(String[] args) {
         frame = new JFrame("Ultra Converter Pro Plus");
@@ -47,7 +55,7 @@ public class MainGUI {
         initialPanel = new JPanel();
         initialPanel.setLayout(new GridBagLayout());
         JButton button1 = new JButton("Conversion simple");
-        JButton button2 = new JButton("Bouton 2");
+        JButton button2 = new JButton("importer un fichier");
         JPanel buttonPanel = new JPanel(new FlowLayout());
         buttonPanel.add(button1);
         buttonPanel.add(button2);
@@ -57,18 +65,148 @@ public class MainGUI {
         conversionPanel = new JPanel();
         conversionPanel.setLayout(new FlowLayout());
         setupConversionPanel();
+        
+        // Panneau d'importation (sera affiché après clic sur le bouton 2)
+        importPanel = new JPanel();
+        importPanel.setLayout(new FlowLayout());
+        setupImportationPanel();
 
         // Ajouter les panneaux au CardLayout
         mainPanel.add(initialPanel, "initial");
         mainPanel.add(conversionPanel, "conversion");
+        mainPanel.add(importPanel,"import");
         frame.add(mainPanel);
 
         // Action pour le bouton 1
         button1.addActionListener(e -> cardLayout.show(mainPanel, "conversion"));
-
+        
+        // Action pour le bouton 2
+        button2.addActionListener(e -> cardLayout.show(mainPanel, "import"));
+        
         // Afficher la fenÃªtre
         frame.setVisible(true);
     }
+    
+    private static void setupImportationPanel() {
+        importPanel.setLayout(new BorderLayout()); // Changer le layout pour BorderLayout
+
+        // Barre supérieure avec le bouton Retour
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // Barre supérieure
+        JButton backButton = new JButton("←");
+        topPanel.add(backButton);
+        importPanel.add(topPanel, BorderLayout.NORTH); // Ajouter en haut du panneau
+
+        // Action du bouton Retour
+        backButton.addActionListener(e -> cardLayout.show(mainPanel, "initial"));
+
+        // Le panneau principal qui contiendra tout
+        JPanel contentPanel = new JPanel();
+        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS)); // Organiser verticalement
+
+        // Centrer le panneau sur la fenêtre
+        contentPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        importPanel.add(contentPanel, BorderLayout.CENTER);
+        
+        // --- Groupe 1 : Fichier de départ à convertir ---
+        JPanel filePanel = new JPanel();
+        filePanel.setLayout(new BoxLayout(filePanel, BoxLayout.Y_AXIS)); // Organiser verticalement
+
+        JLabel fileLabel = new JLabel("Fichier de départ à convertir:");
+        JTextField filePathField = new JTextField(30); // Champ de texte pour afficher le chemin du fichier
+        JButton browseFileButton = new JButton("Parcourir fichier CSV...");
+        
+        filePanel.add(fileLabel);
+        filePanel.add(filePathField);
+        filePanel.add(browseFileButton);
+
+        // Ajouter Groupe 1 au panneau principal
+        contentPanel.add(filePanel);
+        contentPanel.add(Box.createVerticalStrut(50)); // Espacement entre les groupes
+
+        // --- Groupe 2 : Dossier où le fichier converti sera téléchargé ---
+        JPanel folderPanel = new JPanel();
+        folderPanel.setLayout(new BoxLayout(folderPanel, BoxLayout.Y_AXIS)); // Organiser verticalement
+
+        JLabel folderLabel = new JLabel("Dossier où le fichier converti est téléchargé:");
+        JTextField folderPathField = new JTextField(30); // Champ de texte pour afficher le chemin du dossier
+        JButton browseFolderButton = new JButton("Parcourir dossier...");
+        
+        folderPanel.add(folderLabel);
+        folderPanel.add(folderPathField);
+        folderPanel.add(browseFolderButton);
+
+        // Ajouter Groupe 2 au panneau principal
+        contentPanel.add(folderPanel);
+        contentPanel.add(Box.createVerticalStrut(50)); // Espacement entre les groupes
+
+        // --- Groupe 3 : Bouton Convertir ---
+        JPanel convertPanel = new JPanel();
+        JButton convertButton = new JButton("Convertir");
+        
+        convertPanel.add(convertButton);
+
+        // Ajouter Groupe 3 au panneau principal
+        contentPanel.add(convertPanel);
+
+        // Action du bouton Parcourir pour ouvrir le sélecteur de fichiers CSV
+        browseFileButton.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Sélectionner un fichier CSV");
+
+            // Créer un filtre pour n'afficher que les fichiers CSV
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Fichiers CSV", "csv");
+            fileChooser.setFileFilter(filter);
+
+            // Optionnel : spécifie un répertoire de départ, si nécessaire
+            fileChooser.setCurrentDirectory(new File("C:\\Users\\melih"));
+
+            int result = fileChooser.showOpenDialog(importPanel); // Affiche la fenêtre de sélection de fichier
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                
+                // Vérifier si l'élément sélectionné est bien un fichier CSV
+                if (selectedFile.isFile() && selectedFile.getName().endsWith(".csv")) {
+                    filePath = selectedFile.getAbsolutePath(); // Récupère le chemin absolu du fichier
+                    filePathField.setText(filePath); // Affiche le chemin dans le champ de texte
+                } else {
+                    // Si ce n'est pas un fichier CSV, afficher un message d'erreur
+                    JOptionPane.showMessageDialog(importPanel, 
+                            "Erreur : Vous devez sélectionner un fichier CSV.",
+                            "Erreur de sélection", 
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+        // Action du bouton Parcourir pour ouvrir le sélecteur de répertoires (dossier)
+        browseFolderButton.addActionListener(e -> {
+            JFileChooser folderChooser = new JFileChooser();
+            folderChooser.setDialogTitle("Sélectionner un dossier");
+            
+            // Définit le mode de sélection à "répertoire seulement"
+            folderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            
+            // Optionnel : spécifie un répertoire de départ, si nécessaire
+            folderChooser.setCurrentDirectory(new File("C:\\Users\\melih"));
+
+            int result = folderChooser.showOpenDialog(importPanel); // Affiche la fenêtre de sélection de dossier
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File selectedFolder = folderChooser.getSelectedFile();
+                
+                // Récupérer le chemin absolu du dossier
+                folderPath = selectedFolder.getAbsolutePath(); 
+                folderPathField.setText(folderPath); // Affiche le chemin dans le champ de texte
+            }
+        });
+        
+        // Action sur bouton conversion
+        convertButton.addActionListener(e -> {
+        	CsvFileHelper.IOCSV(filePath, folderPath + "/new_fichier.csv");
+        });
+    }
+
+
 
     private static void setupConversionPanel() {
         conversionPanel.setLayout(new BorderLayout()); // Changer le layout pour BorderLayout
