@@ -10,11 +10,19 @@ public class Kelvin implements IUnite {
 
     @Override
     public float convertToIS(float distance) {
-        return (float) (distance - 273.15);
+        if(distance >= 0) {
+            return (float) (distance - 273.15);
+        }
+        else
+            return 0;//Cas d'erreur
     }
 
     @Override
     public float convertFromIS(float distance) {
-        return (float) (distance + 273.15);
+        if(distance + 273.15 >= 0) {
+            return (float) (distance + 273.15);
+        }
+        else
+            return 0;//Cas d'erreur
     }
 }
