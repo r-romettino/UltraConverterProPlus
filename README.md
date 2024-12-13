@@ -40,4 +40,4 @@ L'application devra comprendre une requete en langage humain comme :
 1 Miles en Mètres
 ```
 
-Ce qui donnera le résultat comme dans une conversion simple
+Ce qui donnera le résultat comme dans une conversion simple (1600 Mètres ici)
