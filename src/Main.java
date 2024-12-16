@@ -33,7 +33,7 @@ public class Main
         String[] uniteTemps = {"temps.Secondes", "temps.Minutes", "temps.Heures", "temps.Jours", "temps.Semaines"};
         String[] uniteTemperatures = {"temperatures.Celsius", "temperatures.Delisle", "temperatures.Fahrenheit", "temperatures.Kelvin", "temperatures.Newton", "temperatures.Rankine", "temperatures.Reaumur"};
         String[] uniteDistances = {"distances.Miles", "distances.Metre", "distances.Pouce", "distances.MileNautique", "distances.Yard", "distances.Kilometre", "distances.Centimetre", "distances.Millimetre", "distances.Micrometre", "distances.Nanometre", "distances.Pied"}; // To fill with all the different distance units
-        
+        String[] uniteVolumes = {"volumes.AmericanCoffeeSpoon","volumes.AmericanGallon","volumes.AmericanLiquidOnce","volumes.AmericanLiquidPint","volumes.AmericanMug","volumes.AmericanQuarter","volumes.AmericanSoupSpoon","volumes.CubeFoot","volumes.CubeInch","volumes.CubicMeter","volumes.ImperialCoffeeSpoon","volumes.ImperialGallon","volumes.ImperialLiquidOnce","volumes.ImperialMug","volumes.ImperialPint","volumes.ImperialQuarter","volumes.ImperialSoupSpoon","volumes.Litre","volumes.Millilitre"};
         Scanner sc = new Scanner(System.in); // Initialize the scanner to get the user's choices
         
         // Charger l'historique depuis le fichier JSON
