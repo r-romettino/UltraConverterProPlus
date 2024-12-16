@@ -35,6 +35,7 @@ public class MainGUI {
     // UnitÃ©s pour chaque type
     private static String[] uniteTemps = {"Secondes", "Minutes", "Heures", "Jours", "Semaines"};
     private static String[] uniteTemperatures = {"Celsius", "Delisle", "Fahrenheit", "Kelvin", "Newton", "Rankine", "Reaumur"};
+    private static String[] uniteMonnaie = {"Euro", "Dirham", "Livre Turque", "Franc Français", "Dollar Américain", "Bitcoin", "Apecoin"};
     private static String[] uniteDistances = {"Miles", "Metre", "Pouce", "Mile Nautique", "Yard", "Kilometre", "Centimetre", "Millimetre", "Micrometre", "Nanometre", "Pied"};
     private static String[] unitePoids = {"Gramme","Kilogramme","Livre","Microgramme","Milligramme","Once","Stone","Tonne","TonneCourte","TonneLongue"};
     private static String[] uniteVolumes = {"AmericanCoffeeSpoon","AmericanGallon","AmericanLiquidOnce","AmericanLiquidPint","AmericanMug","AmericanQuarter","AmericanSoupSpoon","CubeFoot","CubeInch","Cubicmeter","ImperialCoffeeSpoon","ImperialGallon","ImperialLiquidOnce","ImperialMug","ImperialPint","ImperialQuarter","ImperialSoupSpoon","Litre","Millilitre"};
