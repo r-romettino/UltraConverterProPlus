@@ -1,5 +1,8 @@
 # Projet de convertisseur d'unité
 
+## Politique de travail :
+https://docs.google.com/document/d/1xKUbtuOBFdiNBiCSYEu-Qn2UjMgeYfPB-h0a1oieQyI/edit?usp=sharing
+
 Ce projet est une application permettant la conversion d'unités (temps,
 distances, températures)
 
@@ -34,6 +37,13 @@ Il ressemblera a :
 Unité1,valeur_a_convertir,Unité2,valeur_convertie
 ```
 
+## Compréhension des erreurs
+
+Nous avons évoqué l'idée d'ajouter un system comprennant les fautes
+d'orthographe.
+Par exemple si dans notre csv le programme trouve 'maitre' au lieu de 'Mètre'
+alors le programme corrigera et continuera le processus.
+
 # Roadmap
 
 Nous avons prévu d'implementer de nouvelles fonctionnalités comme :
@@ -46,14 +56,7 @@ L'application devra comprendre une requete en langage humain comme :
 1 Miles en Mètres
 ```
 
-Ce qui donnera le résultat comme dans une conversion simple (1600 Mètres ici)
-
-## Compréhension des erreurs
-
-Nous avons évoqué l'idée d'ajouter un system comprennant les fautes
-d'orthographe.
-Par exemple si dans notre csv le programme trouve 'maitre' au lieu de 'Mètre'
-alors le programme corrigera et continuera le processus.
+Ce qui donnera le résultat comme dans une conversion simple (~1600 Mètres ici)
 
 ## Calculs
 
