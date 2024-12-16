@@ -19,31 +19,6 @@ public class CorrectionOrthographique {
         unites.addAll(Arrays.asList(uniteDistances));
     }
 
-    /*public static void main(String[] args) {
-        // Combine toutes les unités en une seule liste
-        Set<String> unites = new HashSet<>();
-        unites.addAll(Arrays.asList(uniteTemps));
-        unites.addAll(Arrays.asList(uniteTemperatures));
-        unites.addAll(Arrays.asList(uniteDistances));
-
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Entrez une unité (temps, température, distance):");
-        String entreeUtilisateur = scanner.nextLine().toLowerCase();
-
-        if (!unites.contains(entreeUtilisateur)) {
-            String correction = trouverCorrection(entreeUtilisateur, unites);
-            if (correction != null) {
-                System.out.println("Vous avez fait une faute de frappe. Voulez-vous dire : " + correction + "?");
-            } else {
-                System.out.println("Aucune correction suggérée.");
-            }
-        } else {
-            System.out.println("Unité reconnue: " + entreeUtilisateur);
-        }
-
-        scanner.close();
-    }*/
-
     public String trouverCorrection(String entree) {
         String meilleureCorrection = null;
         int distanceMinimale = Integer.MAX_VALUE;
