@@ -14,7 +14,7 @@ public class Kelvin implements IUnite {
             return (float) (distance - 273.15);
         }
         else
-            return 0;//Cas d'erreur
+            return -1;//Cas d'erreur
     }
 
     @Override
@@ -23,6 +23,6 @@ public class Kelvin implements IUnite {
             return (float) (distance + 273.15);
         }
         else
-            return 0;//Cas d'erreur
+            return -1;//Cas d'erreur
     }
 }
