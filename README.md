@@ -7,7 +7,7 @@ L'application permet plusieurs modes de fonctionnement
 
 ### Trello : https://trello.com/b/42JZFEb6/ultraconverterproplus
 
-### Auteurs : ROMETTINO Ryoma, BOUAZATTI Yassine, KARACA Melih, FAUCHEZ Mathéo
+### Auteurs : ROMETTINO Ryoma, BOUAZZATI Yassine, KARACA Melih, FAUCHEZ Mathéo
 
 ## Conversion simple
 
@@ -34,6 +34,13 @@ Il ressemblera a :
 Unité1,valeur_a_convertir,Unité2,valeur_convertie
 ```
 
+## Compréhension des erreurs
+
+Nous avons ajouté un systeme comprennant les fautes
+d'orthographe.
+Par exemple si dans notre csv le programme trouve 'maitre' au lieu de 'Mètre'
+alors le programme corrigera et continuera le processus.
+
 # Roadmap
 
 Nous avons prévu d'implementer de nouvelles fonctionnalités comme :
@@ -48,12 +55,7 @@ L'application devra comprendre une requete en langage humain comme :
 
 Ce qui donnera le résultat comme dans une conversion simple (1600 Mètres ici)
 
-## Compréhension des erreurs
 
-Nous avons évoqué l'idée d'ajouter un system comprennant les fautes
-d'orthographe.
-Par exemple si dans notre csv le programme trouve 'maitre' au lieu de 'Mètre'
-alors le programme corrigera et continuera le processus.
 
 ## Calculs
 
