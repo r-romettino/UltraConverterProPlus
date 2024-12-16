@@ -276,7 +276,6 @@ public class MainGUI {
         conversionPanel.add(contentPanel, BorderLayout.CENTER);
 
 
-        String[] types = {"distances", "temps", "temperatures"};
         String[] operator = {"+","-","*","/"};
         String[] types = {"distances", "temps", "temperatures", "volumes"};
         typeComboBox = new JComboBox<>(types);
