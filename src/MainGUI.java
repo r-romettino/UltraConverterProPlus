@@ -35,6 +35,7 @@ public class MainGUI {
     private static String[] uniteTemps = {"Secondes", "Minutes", "Heures", "Jours", "Semaines"};
     private static String[] uniteTemperatures = {"Celsius", "Delisle", "Fahrenheit", "Kelvin", "Newton", "Rankine", "Reaumur"};
     private static String[] uniteDistances = {"Miles", "Metre", "Pouce", "Mile Nautique", "Yard", "Kilometre", "Centimetre", "Millimetre", "Micrometre", "Nanometre", "Pied"};
+    private static String[] uniteVolumes = {"AmericanCoffeeSpoon","AmericanGallon","AmericanLiquidOnce","AmericanLiquidPint","AmericanMug","AmericanQuarter","AmericanSoupSpoon","CubeFoot","CubeInch","Cubicmeter","ImperialCoffeeSpoon","ImperialGallon","ImperialLiquidOnce","ImperialMug","ImperialPint","ImperialQuarter","ImperialSoupSpoon","Litre","Millilitre"};
     private static String[] listeUnite;
     private static convertHistory lastConvert;
     private static List<convertHistory> history = new ArrayList<>();
@@ -269,7 +270,7 @@ public class MainGUI {
         JPanel contentPanel = new JPanel(new FlowLayout());
         conversionPanel.add(contentPanel, BorderLayout.CENTER);
 
-        String[] types = {"distances", "temps", "temperatures"};
+        String[] types = {"distances", "temps", "temperatures", "volumes"};
         typeComboBox = new JComboBox<>(types);
         fromUnitComboBox = new JComboBox<>();
         toUnitComboBox = new JComboBox<>();
@@ -322,6 +323,12 @@ public class MainGUI {
                 toUnitComboBox.addItem(unit);
             }
             listeUnite = uniteTemperatures;
+        } else if ("volumes".equals(selectedType)) {
+            for (String unit : uniteVolumes) {
+                fromUnitComboBox.addItem(unit);
+                toUnitComboBox.addItem(unit);
+            }
+            listeUnite = uniteVolumes;
         }
     }
 
