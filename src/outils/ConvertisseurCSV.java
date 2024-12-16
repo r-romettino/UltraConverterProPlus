@@ -14,7 +14,7 @@ public class ConvertisseurCSV {
         String[] donneesEntrees = ligne.split(",");
         IUnite u1;
         IUnite u2;
-        u1 = Factory.transformStringToClass("temps."+donneesEntrees[0], false);
+        /*u1 = Factory.transformStringToClass("temps."+donneesEntrees[0], false);
         if(u1==null)
         {
             u1 = Factory.transformStringToClass("temperatures."+donneesEntrees[0], false);
@@ -32,7 +32,10 @@ public class ConvertisseurCSV {
         if(u2==null)
         {
             u2 = Factory.transformStringToClass("distances."+donneesEntrees[2], false);
-        }
+        }*/
+        CorrectionOrthographique co = new CorrectionOrthographique();
+        u1 = Factory.transformStringToClass(co.trouverCorrection(donneesEntrees[0]));
+        u2 = Factory.transformStringToClass(co.trouverCorrection(donneesEntrees[2]));
         float valueUnit1 = Float.parseFloat(donneesEntrees[1]);
         float valueUnit2 = Convertisseur.convert(u1, u2, valueUnit1);
         return u1+","+valueUnit1+","+u2+","+valueUnit2;
