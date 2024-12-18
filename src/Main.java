@@ -1,13 +1,8 @@
-import outils.AffichageMenu;
-import outils.Convertisseur;
-import outils.Factory;
-import outils.IUnite;
-import outils.convertHistory;
+import outils.*;
 
 import java.util.*;
 import static java.lang.System.exit;
 import distances.*;
-import outils.ConvertisseurCSV;
 import temperatures.*;
 import temps.*;
 
@@ -27,7 +22,7 @@ public class Main
 	public static void main(String[] args) {
         float res = -1;
 
-        String[] types = {"u.Distances", "u.Temps", "u.Températures", "u.Volumes", "u.Poids", "u.History"};
+        String[] types = {"u.Distances", "u.Temps", "u.TempÃ©ratures", "u.Volumes", "u.Poids", "u.History"};
 
         // TODO: Make this a hashmap
         String[] uniteTemps = {"temps.Secondes", "temps.Minutes", "temps.Heures", "temps.Jours", "temps.Semaines"};
@@ -47,29 +42,38 @@ public class Main
             System.out.println("\n Votre choix : ");
             String entree = sc.nextLine();
 
-            // Vérifier si l'utilisateur veut quitter
+            // VÃ©rifier si l'utilisateur veut quitter
             if (Objects.equals(entree, "0")) {
-                System.out.println("Vous avez choisi de quitter. À bientôt!");
+                System.out.println("Vous avez choisi de quitter. Ã€ bientÃ´t!");
                 break; // Sortir de la boucle
             }
 
-            // Gestion des différentes options
-            else if (Objects.equals(entree, "1")) { // Distances
+            //Conversion multiple par csv
+            else if (Objects.equals(entree, "1")) {
+                System.out.println("Votre fichier d'entrÃ©e : ");
+                String fichierEntree = sc.nextLine();
+                System.out.println("Votre fichier de sortie : ");
+                String fichierSortie = sc.nextLine();
+                CsvFileHelper.IOCSV(fichierEntree, fichierSortie);
+            }
+
+            // Gestion des diffÃ©rentes options
+            else if (Objects.equals(entree, "2")) { // Distances
                 convertor(res, entree, sc, uniteDistances, "Distances");
             } 
-            else if (Objects.equals(entree, "2")) { // Temps
+            else if (Objects.equals(entree, "3")) { // Temps
                 convertor(res, entree, sc, uniteTemps, "Temps");
             }
-            else if (Objects.equals(entree, "3")) { // Températures
-                convertor(res, entree, sc, uniteTemperatures, "Températures");
+            else if (Objects.equals(entree, "4")) { // TempÃ©ratures
+                convertor(res, entree, sc, uniteTemperatures, "TempÃ©ratures");
             }
-            else if (Objects.equals(entree, "4")) { // Températures
+            else if (Objects.equals(entree, "5")) {
                 convertor(res, entree, sc, uniteVolumes, "Volumes");
             }
-            else if (Objects.equals(entree, "5")) { // Températures
+            else if (Objects.equals(entree, "6")) {
                 convertor(res, entree, sc, unitePoids, "Poids");
             }
-            else if (Objects.equals(entree, "6")) { // Températures
+            else if (Objects.equals(entree, "7")) {
                 afficheHistory(history);
             }
             else {
@@ -77,13 +81,13 @@ public class Main
             }
         }
         
-        sc.close(); // Fermer le scanner à la fin
+        sc.close(); // Fermer le scanner Ã  la fin
 
     }
 	
 	public static void convertor(float res, String entree, Scanner sc, String[]listeUnite, String selectedType) {
 		    
-		    System.out.println("Selectionnez l'unité d'origine : \n");
+		    System.out.println("Selectionnez l'unitÃ© d'origine : \n");
 		    AffichageMenu.afficher(listeUnite);
 		    entree = sc.nextLine();
 		
@@ -97,7 +101,7 @@ public class Main
 		    String result = listeUnite[Integer.parseInt(entree)-1];
 		    String toUnit = result.substring(result.indexOf(".") + 1);
 		    
-		    System.out.println("Vers quelle unité ?\n");
+		    System.out.println("Vers quelle unitÃ© ?\n");
 		    AffichageMenu.afficher(listeUnite);
 		    entree = sc.nextLine();
 		
@@ -115,7 +119,7 @@ public class Main
 		        res = Convertisseur.convert(u1,u2, distance);
 		    
 		    Formatter format = new Formatter();
-		    format.format("Résultat de la conversion : %s %s = %s %s", distance, u1, res, u2);
+		    format.format("RÃ©sultat de la conversion : %s %s = %s %s", distance, u1, res, u2);
 		    System.out.println(format);
 		    
 		    convertHistory lastConvert = new convertHistory(res, fromUnit, toUnit, distance, selectedType);
@@ -135,37 +139,37 @@ public class Main
 		}
 	}
 	
-	// Méthode pour enregistrer l'historique dans un fichier JSON
+	// MÃ©thode pour enregistrer l'historique dans un fichier JSON
     public static void saveHistoryToJson(List<convertHistory> history) {
-        ObjectMapper objectMapper = new ObjectMapper(); // Création d'un objet ObjectMapper de Jackson
+        ObjectMapper objectMapper = new ObjectMapper(); // CrÃ©ation d'un objet ObjectMapper de Jackson
 
         try {
             // Enregistrer l'historique dans un fichier JSON
             objectMapper.writeValue(new File("history.json"), history);
-            System.out.println("Historique enregistré dans history.json");
+            System.out.println("Historique enregistrÃ© dans history.json");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
     
-    // Méthode pour charger l'historique à partir d'un fichier JSON
+    // MÃ©thode pour charger l'historique Ã  partir d'un fichier JSON
     public static void loadHistoryFromJson() {
-        ObjectMapper objectMapper = new ObjectMapper(); // Création d'un objet ObjectMapper de Jackson
+        ObjectMapper objectMapper = new ObjectMapper(); // CrÃ©ation d'un objet ObjectMapper de Jackson
         File file = new File("history.json"); // Chemin du fichier JSON
 
         try {
-            // Vérifier si le fichier existe avant de tenter de le lire
+            // VÃ©rifier si le fichier existe avant de tenter de le lire
             if (file.exists() && !file.isDirectory()) {
                 // Lire le contenu du fichier JSON et le convertir en une liste d'objets convertHistory
                 List<convertHistory> loadedHistory = Arrays.asList(
                         objectMapper.readValue(file, convertHistory[].class)
                 );
 
-                // Ajouter les entrées chargées à l'historique actuel
+                // Ajouter les entrÃ©es chargÃ©es Ã  l'historique actuel
                 history.addAll(loadedHistory);
-                System.out.println("Historique chargé depuis history.json");
+                System.out.println("Historique chargÃ© depuis history.json");
             } else {
-                System.out.println("Aucun fichier history.json trouvé. L'historique commence vide.");
+                System.out.println("Aucun fichier history.json trouvÃ©. L'historique commence vide.");
             }
         } catch (IOException e) {
             System.out.println("Erreur lors du chargement de l'historique depuis le fichier JSON.");
