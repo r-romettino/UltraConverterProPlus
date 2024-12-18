@@ -5,7 +5,7 @@ import outils.IUnite;
 /**
  * Classe gérant les miles
  */
-public class Miles implements IUnite {
+public class Mile implements IUnite {
     @Override
     public String toString() {
         return "Miles";

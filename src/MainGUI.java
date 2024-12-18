@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import outils.Convertisseur;
 import outils.CsvFileHelper;
 import outils.convertHistory;
+import outils.maths;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -26,20 +27,18 @@ public class MainGUI {
     private static JComboBox<String> fromUnitComboBox;
     private static JComboBox<String> toUnitComboBox;
     private static JTextField valueTextField;
-    private static JComboBox<String> signeOperatorBox;
-    private static JTextField operatorTextField;
     private static JButton convertButton;
     private static JScrollPane scrollPane = new JScrollPane();
     private static DefaultListModel<String> listModel = new DefaultListModel<>();
     private static JList<String> list;
-    private static Integer mathBoolean = 0;
 
     // UnitÃ©s pour chaque type
     private static String[] uniteTemps = {"Secondes", "Minutes", "Heures", "Jours", "Semaines"};
     private static String[] uniteTemperatures = {"Celsius", "Delisle", "Fahrenheit", "Kelvin", "Newton", "Rankine", "Reaumur"};
-    private static String[] uniteDistances = {"Miles", "Metre", "Pouce", "Mile Nautique", "Yard", "Kilometre", "Centimetre", "Millimetre", "Micrometre", "Nanometre", "Pied"};
+    private static String[] uniteMonnaie = {"Euro", "Dirham", "Livre Turque", "Franc Français", "Dollar Américain", "Bitcoin", "Apecoin"};
+    private static String[] uniteDistances = {"Mile", "Mètre", "Pouce", "Mile Nautique", "Yard", "Kilomètre", "Centimètre", "Millimètre", "Micromètre", "Nanomètre", "Pied"};
     private static String[] unitePoids = {"Gramme","Kilogramme","Livre","Microgramme","Milligramme","Once","Stone","Tonne","TonneCourte","TonneLongue"};
-    private static String[] uniteVolumes = {"AmericanCoffeeSpoon","AmericanGallon","AmericanLiquidOnce","AmericanLiquidPint","AmericanMug","AmericanQuarter","AmericanSoupSpoon","CubeFoot","CubeInch","Cubicmeter","ImperialCoffeeSpoon","ImperialGallon","ImperialLiquidOnce","ImperialMug","ImperialPint","ImperialQuarter","ImperialSoupSpoon","Litre","Millilitre"};
+    private static String[] uniteVolumes = {"American Coffee Spoon","American Gallon","American Liquid Once","American Liquid Pint","American Mug","American Quarter","American Soup Spoon","Cube Foot","Cube Inch","Cubic meter","Imperial Coffee Spoon","Imperial Gallon","Imperial Liquid Once","Imperial Mug","Imperial Pint","Imperial Quarter","Imperial Soup Spoon","Litre","Millilitre"};
     private static String[] listeUnite;
     private static convertHistory lastConvert;
     private static List<convertHistory> history = new ArrayList<>();
@@ -256,7 +255,12 @@ public class MainGUI {
 
     }
 
-
+    private static String sanitizeClassName(String name) {
+        return name
+                .replaceAll("é", "e")
+                .replaceAll("è", "e")
+                .replaceAll(" ", "");
+    }
 
     private static void setupConversionPanel() {
         conversionPanel.setLayout(new BorderLayout()); // Changer le layout pour BorderLayout
@@ -264,9 +268,7 @@ public class MainGUI {
         // Barre supÃ©rieure avec le bouton Retour
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // Barre supÃ©rieure
         JButton backButton = new JButton("←");
-        JButton mathButton = new JButton("Math");
         topPanel.add(backButton, BorderLayout.WEST);
-        topPanel.add(mathButton, BorderLayout.EAST);
         conversionPanel.add(topPanel, BorderLayout.NORTH); // Ajouter en haut du panneau
 
         // Action du bouton Retour
@@ -275,26 +277,20 @@ public class MainGUI {
         // Le reste du panneau (contenu principal de la conversion)
         JPanel contentPanel = new JPanel(new FlowLayout());
         conversionPanel.add(contentPanel, BorderLayout.CENTER);
-      
-        String[] operator = {"+","-","*","/"};
-        String[] types = {"distances", "temps", "temperatures", "volumes", "poids"};
+
+        String[] types = {"distances", "temps", "temperatures", "volumes", "poids", "monnaies"};
 
         typeComboBox = new JComboBox<>(types);
+        
         fromUnitComboBox = new JComboBox<>();
         toUnitComboBox = new JComboBox<>();
         valueTextField = new JTextField(10);
-        JComboBox<String> signeOperatorBox1 = signeOperatorBox = new JComboBox<>(operator);
-        JTextField operatorTextField1 = operatorTextField = new JTextField(10);
         convertButton = new JButton("Convertir");
 
         contentPanel.add(typeComboBox);
         contentPanel.add(fromUnitComboBox);
         contentPanel.add(toUnitComboBox);
         contentPanel.add(valueTextField);
-        contentPanel.add(signeOperatorBox1);
-        signeOperatorBox1.setVisible(false); // Masquer signeOperatorBox
-        contentPanel.add(operatorTextField1);
-        operatorTextField1.setVisible(false); // Masquer operatorTextField
         contentPanel.add(convertButton);
 
         // Historique
@@ -313,18 +309,6 @@ public class MainGUI {
             saveHistoryToJson(history);
         });
         
-        //Action bouton Math
-        mathButton.addActionListener(e -> {
-            if (mathBoolean == 1) {
-                mathBoolean = 0;
-                signeOperatorBox1.setVisible(false); // Masquer signeOperatorBox
-                operatorTextField1.setVisible(false); // Masquer operatorTextField
-            } else {
-                mathBoolean = 1;
-                signeOperatorBox1.setVisible(true); // Afficher signeOperatorBox
-                operatorTextField1.setVisible(true); // Afficher operatorTextField
-            }
-        });
     }
 
     private static void updateUnitCombos() {
@@ -356,6 +340,12 @@ public class MainGUI {
                 toUnitComboBox.addItem(unit);
             }
             listeUnite = uniteVolumes;
+        } else if ("monnaies".equals(selectedType)) {
+            for (String unit : uniteMonnaie) {
+                fromUnitComboBox.addItem(unit);
+                toUnitComboBox.addItem(unit);
+            }
+            listeUnite = uniteMonnaie;
         }
         else if ("poids".equals(selectedType)) {
             for (String unit : unitePoids) {
@@ -367,34 +357,17 @@ public class MainGUI {
     }
 
     private static void convert() {
-        String fromUnit = (String) fromUnitComboBox.getSelectedItem();
-        String toUnit = (String) toUnitComboBox.getSelectedItem();
+        String fromUnit = sanitizeClassName((String)fromUnitComboBox.getSelectedItem());
+        String toUnit = sanitizeClassName((String)toUnitComboBox.getSelectedItem());
         String valueText = valueTextField.getText();
         String selectedType = (String) typeComboBox.getSelectedItem();
-        String operatorText = operatorTextField.getText();
-        String operator = (String) signeOperatorBox.getSelectedItem();
         
-        if (!isValidNumber(valueText)) {
-            JOptionPane.showMessageDialog(null, "Veuillez entrer une valeur numérique valide.");
-        } else {
-        	if (mathBoolean == 1 && !isValidNumber(operatorText)) {
-        		JOptionPane.showMessageDialog(null, "Veuillez entrer une valeur numérique valide pour l'operateur.");
-        	} else {
-	            float value = Float.parseFloat(valueText);
-	            if (mathBoolean == 1) {
-		            if (operator.equals("+")) {
-		            	value = value + Float.parseFloat(operatorText);
-		            }
-		            if (operator.equals("-")) {
-		            	value = value - Float.parseFloat(operatorText);
-		            }
-		            if (operator.equals("*")) {
-		            	value = value * Float.parseFloat(operatorText);
-		            }
-		            if (operator.equals("/")) {
-		            	value = value / Float.parseFloat(operatorText);
-		            }
-	            }
+        if (isValidExpression(valueText)) {
+	        Double valueExpression = maths.evaluateMathExpression(valueText);
+	        if (valueExpression.equals(Double.NaN)) {
+	        	JOptionPane.showMessageDialog(null, "Veuillez entrer une opération valide.");
+	        } else {
+	        	float value = valueExpression.floatValue();
 	            float result = fromUnit.equals(toUnit) ? value : Convertisseur.convertString(
 	                    selectedType + "." + fromUnit,
 	                    selectedType + "." + toUnit,
@@ -402,12 +375,16 @@ public class MainGUI {
 	                    listeUnite);
 	            showResult(result, fromUnit, toUnit, value);
 	        	addHistory(result, fromUnit, toUnit, value, selectedType);
-        	}
+	        }
         }
     }
 
-    private static boolean isValidNumber(String value) {
-        return value.matches("[-+]?\\d*\\.?\\d+");
+    private static boolean isValidExpression(String value) {
+    	if (value.matches(".*[a-zA-Z].*")) {
+    		JOptionPane.showMessageDialog(null, "Veuillez ne pas entrer de lettre.");
+    		return false;
+    	}
+        return true;
     }
 
     private static void showResult(float result, String fromUnit, String toUnit, float value) {
