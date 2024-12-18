@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import outils.Convertisseur;
 import outils.CsvFileHelper;
 import outils.convertHistory;
+import outils.maths;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -26,13 +27,10 @@ public class MainGUI {
     private static JComboBox<String> fromUnitComboBox;
     private static JComboBox<String> toUnitComboBox;
     private static JTextField valueTextField;
-    private static JComboBox<String> signeOperatorBox;
-    private static JTextField operatorTextField;
     private static JButton convertButton;
     private static JScrollPane scrollPane = new JScrollPane();
     private static DefaultListModel<String> listModel = new DefaultListModel<>();
     private static JList<String> list;
-    private static Integer mathBoolean = 0;
 
     // UnitÃ©s pour chaque type
     private static String[] uniteTemps = {"Secondes", "Minutes", "Heures", "Jours", "Semaines"};
@@ -263,9 +261,7 @@ public class MainGUI {
         // Barre supÃ©rieure avec le bouton Retour
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // Barre supÃ©rieure
         JButton backButton = new JButton("←");
-        JButton mathButton = new JButton("Math");
         topPanel.add(backButton, BorderLayout.WEST);
-        topPanel.add(mathButton, BorderLayout.EAST);
         conversionPanel.add(topPanel, BorderLayout.NORTH); // Ajouter en haut du panneau
 
         // Action du bouton Retour
@@ -276,24 +272,17 @@ public class MainGUI {
         conversionPanel.add(contentPanel, BorderLayout.CENTER);
 
 
-        String[] operator = {"+","-","*","/"};
         String[] types = {"distances", "temps", "temperatures", "volumes"};
-        typeComboBox = new JComboBox<>(types);
+        typeComboBox = new JComboBox<>(types); 
         fromUnitComboBox = new JComboBox<>();
         toUnitComboBox = new JComboBox<>();
         valueTextField = new JTextField(10);
-        JComboBox<String> signeOperatorBox1 = signeOperatorBox = new JComboBox<>(operator);
-        JTextField operatorTextField1 = operatorTextField = new JTextField(10);
         convertButton = new JButton("Convertir");
 
         contentPanel.add(typeComboBox);
         contentPanel.add(fromUnitComboBox);
         contentPanel.add(toUnitComboBox);
         contentPanel.add(valueTextField);
-        contentPanel.add(signeOperatorBox1);
-        signeOperatorBox1.setVisible(false); // Masquer signeOperatorBox
-        contentPanel.add(operatorTextField1);
-        operatorTextField1.setVisible(false); // Masquer operatorTextField
         contentPanel.add(convertButton);
 
         // Historique
@@ -312,18 +301,6 @@ public class MainGUI {
             saveHistoryToJson(history);
         });
         
-        //Action bouton Math
-        mathButton.addActionListener(e -> {
-            if (mathBoolean == 1) {
-                mathBoolean = 0;
-                signeOperatorBox1.setVisible(false); // Masquer signeOperatorBox
-                operatorTextField1.setVisible(false); // Masquer operatorTextField
-            } else {
-                mathBoolean = 1;
-                signeOperatorBox1.setVisible(true); // Afficher signeOperatorBox
-                operatorTextField1.setVisible(true); // Afficher operatorTextField
-            }
-        });
     }
 
     private static void updateUnitCombos() {
@@ -363,30 +340,13 @@ public class MainGUI {
         String toUnit = (String) toUnitComboBox.getSelectedItem();
         String valueText = valueTextField.getText();
         String selectedType = (String) typeComboBox.getSelectedItem();
-        String operatorText = operatorTextField.getText();
-        String operator = (String) signeOperatorBox.getSelectedItem();
         
-        if (!isValidNumber(valueText)) {
-            JOptionPane.showMessageDialog(null, "Veuillez entrer une valeur numérique valide.");
-        } else {
-        	if (mathBoolean == 1 && !isValidNumber(operatorText)) {
-        		JOptionPane.showMessageDialog(null, "Veuillez entrer une valeur numérique valide pour l'operateur.");
-        	} else {
-	            float value = Float.parseFloat(valueText);
-	            if (mathBoolean == 1) {
-		            if (operator.equals("+")) {
-		            	value = value + Float.parseFloat(operatorText);
-		            }
-		            if (operator.equals("-")) {
-		            	value = value - Float.parseFloat(operatorText);
-		            }
-		            if (operator.equals("*")) {
-		            	value = value * Float.parseFloat(operatorText);
-		            }
-		            if (operator.equals("/")) {
-		            	value = value / Float.parseFloat(operatorText);
-		            }
-	            }
+        if (isValidExpression(valueText)) {
+	        Double valueExpression = maths.evaluateMathExpression(valueText);
+	        if (valueExpression.equals(Double.NaN)) {
+	        	JOptionPane.showMessageDialog(null, "Veuillez entrer une opération valide.");
+	        } else {
+	        	float value = valueExpression.floatValue();
 	            float result = fromUnit.equals(toUnit) ? value : Convertisseur.convertString(
 	                    selectedType + "." + fromUnit,
 	                    selectedType + "." + toUnit,
@@ -394,12 +354,16 @@ public class MainGUI {
 	                    listeUnite);
 	            showResult(result, fromUnit, toUnit, value);
 	        	addHistory(result, fromUnit, toUnit, value, selectedType);
-        	}
+	        }
         }
     }
 
-    private static boolean isValidNumber(String value) {
-        return value.matches("[-+]?\\d*\\.?\\d+");
+    private static boolean isValidExpression(String value) {
+    	if (value.matches(".*[a-zA-Z].*")) {
+    		JOptionPane.showMessageDialog(null, "Veuillez ne pas entrer de lettre.");
+    		return false;
+    	}
+        return true;
     }
 
     private static void showResult(float result, String fromUnit, String toUnit, float value) {
