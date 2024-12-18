@@ -27,14 +27,15 @@ public class Main
 	public static void main(String[] args) {
         float res = -1;
 
-        String[] types = {"u.Distances", "u.Temps", "u.Températures", "u.History"}; // To fill with all the unit types
+        String[] types = {"u.Distances", "u.Temps", "u.Températures", "u.Volumes", "u.Poids", "u.History"};
 
         // TODO: Make this a hashmap
         String[] uniteTemps = {"temps.Secondes", "temps.Minutes", "temps.Heures", "temps.Jours", "temps.Semaines"};
         String[] uniteTemperatures = {"temperatures.Celsius", "temperatures.Delisle", "temperatures.Fahrenheit", "temperatures.Kelvin", "temperatures.Newton", "temperatures.Rankine", "temperatures.Reaumur"};
         String[] uniteDistances = {"distances.Miles", "distances.Metre", "distances.Pouce", "distances.MileNautique", "distances.Yard", "distances.Kilometre", "distances.Centimetre", "distances.Millimetre", "distances.Micrometre", "distances.Nanometre", "distances.Pied"}; // To fill with all the different distance units
         String[] uniteVolumes = {"volumes.AmericanCoffeeSpoon","volumes.AmericanGallon","volumes.AmericanLiquidOnce","volumes.AmericanLiquidPint","volumes.AmericanMug","volumes.AmericanQuarter","volumes.AmericanSoupSpoon","volumes.CubeFoot","volumes.CubeInch","volumes.CubicMeter","volumes.ImperialCoffeeSpoon","volumes.ImperialGallon","volumes.ImperialLiquidOnce","volumes.ImperialMug","volumes.ImperialPint","volumes.ImperialQuarter","volumes.ImperialSoupSpoon","volumes.Litre","volumes.Millilitre"};
-        Scanner sc = new Scanner(System.in); // Initialize the scanner to get the user's choices
+        String[] unitePoids = {"poids.Gramme","poids.Kilogramme","poids.Livre","poids.Microgramme","poids.Milligramme","poids.Once","poids.Stone","poids.Tonne","poids.TonneCourte","poids.TonneLongue"};
+        Scanner sc = new Scanner(System.in);
         
         // Charger l'historique depuis le fichier JSON
         loadHistoryFromJson();
@@ -63,6 +64,12 @@ public class Main
                 convertor(res, entree, sc, uniteTemperatures, "Températures");
             }
             else if (Objects.equals(entree, "4")) { // Températures
+                convertor(res, entree, sc, uniteVolumes, "Volumes");
+            }
+            else if (Objects.equals(entree, "5")) { // Températures
+                convertor(res, entree, sc, unitePoids, "Poids");
+            }
+            else if (Objects.equals(entree, "6")) { // Températures
                 afficheHistory(history);
             }
             else {
