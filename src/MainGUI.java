@@ -36,9 +36,9 @@ public class MainGUI {
     private static String[] uniteTemps = {"Secondes", "Minutes", "Heures", "Jours", "Semaines"};
     private static String[] uniteTemperatures = {"Celsius", "Delisle", "Fahrenheit", "Kelvin", "Newton", "Rankine", "Reaumur"};
     private static String[] uniteMonnaie = {"Euro", "Dirham", "Livre Turque", "Franc Français", "Dollar Américain", "Bitcoin", "Apecoin"};
-    private static String[] uniteDistances = {"Miles", "Metre", "Pouce", "Mile Nautique", "Yard", "Kilometre", "Centimetre", "Millimetre", "Micrometre", "Nanometre", "Pied"};
+    private static String[] uniteDistances = {"Mile", "Mètre", "Pouce", "Mile Nautique", "Yard", "Kilomètre", "Centimètre", "Millimètre", "Micromètre", "Nanomètre", "Pied"};
     private static String[] unitePoids = {"Gramme","Kilogramme","Livre","Microgramme","Milligramme","Once","Stone","Tonne","TonneCourte","TonneLongue"};
-    private static String[] uniteVolumes = {"AmericanCoffeeSpoon","AmericanGallon","AmericanLiquidOnce","AmericanLiquidPint","AmericanMug","AmericanQuarter","AmericanSoupSpoon","CubeFoot","CubeInch","Cubicmeter","ImperialCoffeeSpoon","ImperialGallon","ImperialLiquidOnce","ImperialMug","ImperialPint","ImperialQuarter","ImperialSoupSpoon","Litre","Millilitre"};
+    private static String[] uniteVolumes = {"American Coffee Spoon","American Gallon","American Liquid Once","American Liquid Pint","American Mug","American Quarter","American Soup Spoon","Cube Foot","Cube Inch","Cubic meter","Imperial Coffee Spoon","Imperial Gallon","Imperial Liquid Once","Imperial Mug","Imperial Pint","Imperial Quarter","Imperial Soup Spoon","Litre","Millilitre"};
     private static String[] listeUnite;
     private static convertHistory lastConvert;
     private static List<convertHistory> history = new ArrayList<>();
@@ -255,7 +255,12 @@ public class MainGUI {
 
     }
 
-
+    private static String sanitizeClassName(String name) {
+        return name
+                .replaceAll("é", "e")
+                .replaceAll("è", "e")
+                .replaceAll(" ", "");
+    }
 
     private static void setupConversionPanel() {
         conversionPanel.setLayout(new BorderLayout()); // Changer le layout pour BorderLayout
@@ -273,7 +278,8 @@ public class MainGUI {
         JPanel contentPanel = new JPanel(new FlowLayout());
         conversionPanel.add(contentPanel, BorderLayout.CENTER);
 
-        String[] types = {"distances", "temps", "temperatures", "volumes", "poids"};
+        String[] types = {"distances", "temps", "temperatures", "volumes", "poids", "monnaies"};
+
         typeComboBox = new JComboBox<>(types);
         
         fromUnitComboBox = new JComboBox<>();
@@ -334,6 +340,12 @@ public class MainGUI {
                 toUnitComboBox.addItem(unit);
             }
             listeUnite = uniteVolumes;
+        } else if ("monnaies".equals(selectedType)) {
+            for (String unit : uniteMonnaie) {
+                fromUnitComboBox.addItem(unit);
+                toUnitComboBox.addItem(unit);
+            }
+            listeUnite = uniteMonnaie;
         }
         else if ("poids".equals(selectedType)) {
             for (String unit : unitePoids) {
@@ -345,8 +357,8 @@ public class MainGUI {
     }
 
     private static void convert() {
-        String fromUnit = (String) fromUnitComboBox.getSelectedItem();
-        String toUnit = (String) toUnitComboBox.getSelectedItem();
+        String fromUnit = sanitizeClassName((String)fromUnitComboBox.getSelectedItem());
+        String toUnit = sanitizeClassName((String)toUnitComboBox.getSelectedItem());
         String valueText = valueTextField.getText();
         String selectedType = (String) typeComboBox.getSelectedItem();
         
