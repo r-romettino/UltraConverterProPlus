@@ -1,13 +1,8 @@
-import outils.AffichageMenu;
-import outils.Convertisseur;
-import outils.Factory;
-import outils.IUnite;
-import outils.convertHistory;
+import outils.*;
 
 import java.util.*;
 import static java.lang.System.exit;
 import distances.*;
-import outils.ConvertisseurCSV;
 import temperatures.*;
 import temps.*;
 
@@ -53,23 +48,32 @@ public class Main
                 break; // Sortir de la boucle
             }
 
+            //Conversion multiple par csv
+            else if (Objects.equals(entree, "1")) {
+                System.out.println("Votre fichier d'entrée : ");
+                String fichierEntree = sc.nextLine();
+                System.out.println("Votre fichier de sortie : ");
+                String fichierSortie = sc.nextLine();
+                CsvFileHelper.IOCSV(fichierEntree, fichierSortie);
+            }
+
             // Gestion des différentes options
-            else if (Objects.equals(entree, "1")) { // Distances
+            else if (Objects.equals(entree, "2")) { // Distances
                 convertor(res, entree, sc, uniteDistances, "Distances");
             } 
-            else if (Objects.equals(entree, "2")) { // Temps
+            else if (Objects.equals(entree, "3")) { // Temps
                 convertor(res, entree, sc, uniteTemps, "Temps");
             }
-            else if (Objects.equals(entree, "3")) { // Températures
+            else if (Objects.equals(entree, "4")) { // Températures
                 convertor(res, entree, sc, uniteTemperatures, "Températures");
             }
-            else if (Objects.equals(entree, "4")) { // Températures
+            else if (Objects.equals(entree, "5")) { // Températures
                 convertor(res, entree, sc, uniteVolumes, "Volumes");
             }
-            else if (Objects.equals(entree, "5")) { // Températures
+            else if (Objects.equals(entree, "6")) { // Températures
                 convertor(res, entree, sc, unitePoids, "Poids");
             }
-            else if (Objects.equals(entree, "6")) { // Températures
+            else if (Objects.equals(entree, "7")) { // Températures
                 afficheHistory(history);
             }
             else {

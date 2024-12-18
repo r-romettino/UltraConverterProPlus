@@ -4,7 +4,8 @@ public class AffichageMenu {
     public static void afficher(String[] a)
     {
         System.out.println("\t0. Quitter");
-        int idx = 1;
+        System.out.println("\t1. Conversion multiple par CSV");
+        int idx = 2;
         for(String e : a)
         {
             String[] e_u = e.split("\\.");
