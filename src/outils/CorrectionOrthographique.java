@@ -68,7 +68,7 @@ public class CorrectionOrthographique {
             }
         }
 
-        return meilleureCorrection != null && distanceMinimale <= 3 ? meilleureCorrection : null; // tolérance de 3 erreurs
+        return meilleureCorrection != null && distanceMinimale <= 5 ? meilleureCorrection : null; // tolérance de 5 erreurs
     }
 
 
