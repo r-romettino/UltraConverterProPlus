@@ -8,7 +8,7 @@ import outils.IUnite;
 public class Mile implements IUnite {
     @Override
     public String toString() {
-        return "Miles";
+        return "Mile";
     }
 
     @Override

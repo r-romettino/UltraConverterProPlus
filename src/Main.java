@@ -1,5 +1,6 @@
 import outils.*;
 
+import java.sql.SQLOutput;
 import java.util.*;
 import static java.lang.System.exit;
 import distances.*;
@@ -22,14 +23,15 @@ public class Main
 	public static void main(String[] args) {
         float res = -1;
 
-        String[] types = {"u.Distances", "u.Temps", "u.Températures", "u.Volumes", "u.Poids", "u.History"};
+        String[] types = {"u.Distances", "u.Temps", "u.Températures", "u.Volumes", "u.Poids", "u.Monnaies", "u.History"};
 
         // TODO: Make this a hashmap
         String[] uniteTemps = {"temps.Secondes", "temps.Minutes", "temps.Heures", "temps.Jours", "temps.Semaines"};
         String[] uniteTemperatures = {"temperatures.Celsius", "temperatures.Delisle", "temperatures.Fahrenheit", "temperatures.Kelvin", "temperatures.Newton", "temperatures.Rankine", "temperatures.Reaumur"};
-        String[] uniteDistances = {"distances.Miles", "distances.Metre", "distances.Pouce", "distances.MileNautique", "distances.Yard", "distances.Kilometre", "distances.Centimetre", "distances.Millimetre", "distances.Micrometre", "distances.Nanometre", "distances.Pied"}; // To fill with all the different distance units
+        String[] uniteDistances = {"distances.Mile", "distances.Metre", "distances.Pouce", "distances.MileNautique", "distances.Yard", "distances.Kilometre", "distances.Centimetre", "distances.Millimetre", "distances.Micrometre", "distances.Nanometre", "distances.Pied"}; // To fill with all the different distance units
         String[] uniteVolumes = {"volumes.AmericanCoffeeSpoon","volumes.AmericanGallon","volumes.AmericanLiquidOnce","volumes.AmericanLiquidPint","volumes.AmericanMug","volumes.AmericanQuarter","volumes.AmericanSoupSpoon","volumes.CubeFoot","volumes.CubeInch","volumes.CubicMeter","volumes.ImperialCoffeeSpoon","volumes.ImperialGallon","volumes.ImperialLiquidOnce","volumes.ImperialMug","volumes.ImperialPint","volumes.ImperialQuarter","volumes.ImperialSoupSpoon","volumes.Litre","volumes.Millilitre"};
         String[] unitePoids = {"poids.Gramme","poids.Kilogramme","poids.Livre","poids.Microgramme","poids.Milligramme","poids.Once","poids.Stone","poids.Tonne","poids.TonneCourte","poids.TonneLongue"};
+        String[] uniteMonnaie = {"Euro", "Dirham", "Livre Turque", "Franc Français", "Dollar Américain", "Bitcoin", "Apecoin"};
         Scanner sc = new Scanner(System.in);
         
         // Charger l'historique depuis le fichier JSON
@@ -37,7 +39,7 @@ public class Main
 
         while (true) { // Infinite loop to keep the user interacting until they choose to quit
             System.out.println("Selectionnez un des choix suivants : \n");
-            AffichageMenu.afficher(types);
+            AffichageMenu.afficher(types, true);
 
             System.out.println("\n Votre choix : ");
             String entree = sc.nextLine();
@@ -73,7 +75,22 @@ public class Main
             else if (Objects.equals(entree, "6")) {
                 convertor(res, entree, sc, unitePoids, "Poids");
             }
-            else if (Objects.equals(entree, "7")) {
+            else if(Objects.equals(entree, "7")) {
+                //convertor(res, entree, sc, uniteMonnaie, "Monnaies");
+                AffichageMenu.afficherMonnaie(uniteMonnaie);
+                String monnaie1 = uniteMonnaie[Integer.parseInt(sc.nextLine())-1];
+                AffichageMenu.afficherMonnaie(uniteMonnaie);
+                String monnaie2 = uniteMonnaie[Integer.parseInt(sc.nextLine())-1];
+                CurrencyConverter cc = new CurrencyConverter();
+                System.out.println("Qu'elle valeur voulez vous convertir ?");
+                float value = Float.parseFloat(sc.nextLine());
+                float toReturn = cc.convert(monnaie1, monnaie2, value);
+
+                Formatter format = new Formatter();
+                format.format("Résultat de la conversion : %s %s = %s %s", value, monnaie1, toReturn, monnaie2);
+                System.out.println(format);
+            }
+            else if (Objects.equals(entree, "8")) {
                 afficheHistory(history);
             }
             else {
@@ -85,10 +102,10 @@ public class Main
 
     }
 	
-	public static void convertor(float res, String entree, Scanner sc, String[]listeUnite, String selectedType) {
+	public static void convertor(float res, String entree, Scanner sc, String[] listeUnite, String selectedType) {
 		    
 		    System.out.println("Selectionnez l'unité d'origine : \n");
-		    AffichageMenu.afficher(listeUnite);
+		    AffichageMenu.afficher(listeUnite, false);
 		    entree = sc.nextLine();
 		
 		    if(Objects.equals(entree, "0"))//On quitte si 0
@@ -96,20 +113,21 @@ public class Main
 		
 		    IUnite u1=null;
 		    IUnite u2=null;
+
 		    		    
 		    u1 = Factory.transformStringToClass(listeUnite[Integer.parseInt(entree)-1]);
 		    String result = listeUnite[Integer.parseInt(entree)-1];
 		    String toUnit = result.substring(result.indexOf(".") + 1);
 		    
 		    System.out.println("Vers quelle unité ?\n");
-		    AffichageMenu.afficher(listeUnite);
+		    AffichageMenu.afficher(listeUnite, false);
 		    entree = sc.nextLine();
 		
 		    u2 = Factory.transformStringToClass(listeUnite[Integer.parseInt(entree)-1]);
 		    String result1 = listeUnite[Integer.parseInt(entree)-1];
 		    String fromUnit = result1.substring(result.indexOf(".") + 1);
 		    
-		    System.out.println("Qu'elle distance voulez vous convertir ?");
+		    System.out.println("Qu'elle valeur voulez vous convertir ?");
 		    float distance = Float.parseFloat(sc.nextLine());
 		
 		    //Avoid to convert if miles to miles or meters to meters etc...

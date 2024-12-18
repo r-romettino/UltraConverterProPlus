@@ -29,7 +29,7 @@ public class ConvertisseurCSV {
             float valueUnit2 = Convertisseur.convert(u1, u2, valueUnit1);
             return u1+","+valueUnit1+","+u2+","+valueUnit2;
         }
-        return Float.toString(cc.convert(m1, m2, Float.parseFloat(donneesEntrees[1])));
+        return m1 +","+ donneesEntrees[1] +","+ m2 +","+ Float.toString(cc.convert(m1, m2, Float.parseFloat(donneesEntrees[1])));
     }
 
     /**
