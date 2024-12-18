@@ -12,6 +12,8 @@ public class CorrectionOrthographique {
     static String[] unitePoids = {"poids.Gramme","poids.Kilogramme","poids.Livre","poids.Microgramme","poids.Milligramme","poids.Once","poids.Stone","poids.Tonne","poids.TonneCourte","poids.TonneLongue"};
     static String[] uniteVolumes = {"volumes.AmericanCoffeeSpoon","volumes.AmericanGallon","volumes.AmericanLiquidOnce","volumes.AmericanLiquidPint","volumes.AmericanMug","volumes.AmericanQuarter","volumes.AmericanSoupSpoon","volumes.CubeFoot","volumes.CubeInch","volumes.CubicMeter","volumes.ImperialCoffeeSpoon","volumes.ImperialGallon","volumes.ImperialLiquidOnce","volumes.ImperialMug","volumes.ImperialPint","volumes.ImperialQuarter","volumes.ImperialSoupSpoon","volumes.Litre","volumes.Millilitre"};
 
+    static String[] uniteMonnaie = {"Euro", "Dirham", "Livre Turque", "Franc Français", "Dollar Américain", "Bitcoin", "Apecoin"};
+
     Set<String> unites;
 
     public CorrectionOrthographique() {
@@ -68,10 +70,24 @@ public class CorrectionOrthographique {
             }
         }
 
-        return meilleureCorrection != null && distanceMinimale <= 5 ? meilleureCorrection : null; // tolérance de 5 erreurs
+        return meilleureCorrection != null && distanceMinimale <= 3 ? meilleureCorrection : null; // tolérance de 3 erreurs
     }
 
+    public String trouverCorrectionMonnaie(String entree)
+    {
+        String meilleureCorrection = null;
+        int distanceMinimale = Integer.MAX_VALUE;
 
+        for (String unite : uniteMonnaie) {
+            int distance = calculerDistanceLevenshtein(entree, unite);
+            if (distance < distanceMinimale) {
+                distanceMinimale = distance;
+                meilleureCorrection = unite;
+            }
+        }
+
+        return meilleureCorrection != null && distanceMinimale <= 3 ? meilleureCorrection : null; // tolérance de 3 erreurs
+    }
 
     public int calculerDistanceLevenshtein(String s1, String s2) {
         int[][] dp = new int[s1.length() + 1][s2.length() + 1];

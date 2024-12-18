@@ -13,4 +13,15 @@ public class AffichageMenu {
             idx++;
         }
     }
+
+    public static void afficherMonnaie(String[] a)
+    {
+        System.out.println("\t0. Quitter");
+        int idx = 1;
+        for(String e : a)
+        {
+            System.out.println("\t" + idx + ". "+e);
+            idx++;
+        }
+    }
 }
