@@ -15,11 +15,21 @@ public class ConvertisseurCSV {
         IUnite u1;
         IUnite u2;
         CorrectionOrthographique co = new CorrectionOrthographique();
-        u1 = Factory.transformStringToClass(co.trouverCorrection(donneesEntrees[0]));
-        u2 = Factory.transformStringToClass(co.trouverCorrection2(donneesEntrees[2], u1.toString()));
-        float valueUnit1 = Float.parseFloat(donneesEntrees[1]);
-        float valueUnit2 = Convertisseur.convert(u1, u2, valueUnit1);
-        return u1+","+valueUnit1+","+u2+","+valueUnit2;
+
+        CorrectionOrthographique co1 = new CorrectionOrthographique();
+        String m1 = co1.trouverCorrectionMonnaie(donneesEntrees[0]);
+        String m2 = co1.trouverCorrectionMonnaie(donneesEntrees[2]);
+        CurrencyConverter cc = new CurrencyConverter();
+
+        if(m1 == null || m2 == null)
+        {
+            u1 = Factory.transformStringToClass(co.trouverCorrection(donneesEntrees[0]));
+            u2 = Factory.transformStringToClass(co.trouverCorrection2(donneesEntrees[2], u1.toString()));
+            float valueUnit1 = Float.parseFloat(donneesEntrees[1]);
+            float valueUnit2 = Convertisseur.convert(u1, u2, valueUnit1);
+            return u1+","+valueUnit1+","+u2+","+valueUnit2;
+        }
+        return m1 +","+ donneesEntrees[1] +","+ m2 +","+ Float.toString(cc.convert(m1, m2, Float.parseFloat(donneesEntrees[1])));
     }
 
     /**
